@@ -6,7 +6,7 @@ Use git command: ```git submodule add git://github.com/artemkopan/CoreProject.gi
 
 Add next configurations in settings.gradle:
 ```
-include ':common',
+include ':core-android',
         ':core-ui', ':core-app', ':core-mvvm',
         ':debug',
         ':debug-stetho-noop',
