@@ -2,7 +2,6 @@ package io.project.core.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.android.synthetic.*
@@ -15,8 +14,8 @@ abstract class BaseActivity : AppCompatActivity(), BasePresentation, BasePresent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (getContentView() != View.NO_ID) {
-            setContentView(getContentView())
+        if (layoutRes != View.NO_ID) {
+            setContentView(layoutRes)
         }
         onCreated(savedInstanceState)
     }
@@ -28,8 +27,7 @@ abstract class BaseActivity : AppCompatActivity(), BasePresentation, BasePresent
 
     override val lifecycleOwner: LifecycleOwner get() = this
 
-    @LayoutRes
-    protected abstract fun getContentView(): Int
+    protected abstract val layoutRes: Int
 
     protected abstract fun onCreated(savedInstanceState: Bundle?)
 
