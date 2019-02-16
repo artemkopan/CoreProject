@@ -1,1 +1,1 @@
-include ':debug', ':presentation', ':debug-stetho-noop', ':common-core', ':common', ':design', ':image-loader', ':recycler', ':recycler-paging'
+include ':debug', ':common-ui', ':debug-stetho-noop', ':common-core', ':common', ':design', ':image-loader', ':recycler', ':recycler-paging'
