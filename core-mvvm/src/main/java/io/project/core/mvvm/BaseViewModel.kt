@@ -11,7 +11,7 @@ abstract class BaseViewModel : ViewModel(), BaseViewModelDelegate, LifecycleOwne
     private val lifecycleRegistry = LifecycleRegistry(this)
 
     override fun onCleared() {
-        lifecycleRegistry.markState(Lifecycle.State.DESTROYED)
+        lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 
     override fun getLifecycle(): Lifecycle = lifecycleRegistry
