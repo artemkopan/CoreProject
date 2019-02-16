@@ -1,1 +1,7 @@
-include ':debug', ':core-ui', ':debug-stetho-noop', ':core-app', ':common', ':design', ':image-loader', ':recycler', ':recycler-paging', ':core-mvvm'
+include ':common',
+        ':core-ui', ':core-app', ':core-mvvm',
+        ':debug',
+        ':debug-stetho-noop',
+        ':design',
+        ':image-loader',
+        ':recycler', ':recycler-paging'
