@@ -21,7 +21,7 @@ androidExtensions {
 
 dependencies {
     implementation project(":common")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$versions.androidx_viewmodel"
     implementation "android.arch.lifecycle:runtime:$versions.androidx_lifecycle"
 

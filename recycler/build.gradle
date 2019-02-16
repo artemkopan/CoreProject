@@ -21,6 +21,6 @@ androidExtensions {
 
 dependencies {
     implementation project(":common")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin_version"
     implementation "androidx.recyclerview:recyclerview:$versions.androidx_recycler"
 }
