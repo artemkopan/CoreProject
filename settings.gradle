@@ -1,7 +1,8 @@
-include ':common',
+include ':core-android',
         ':core-ui', ':core-app', ':core-mvvm',
         ':debug',
         ':debug-stetho-noop',
         ':design',
         ':image-loader',
-        ':recycler', ':recycler-paging'
+        ':recycler', ':recycler-paging',
+        ':test'

@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.project.common.lifecycle.toSingleEvent
+import io.project.core.android.lifecycle.toSingleEvent
 import kotlin.LazyThreadSafetyMode.PUBLICATION
 
 interface ViewState<T> {

@@ -8,7 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
-import io.project.common.extensions.string
+import io.project.core.android.extensions.string
 import io.project.core.app.Logger
 import java.net.ConnectException
 import java.net.SocketTimeoutException
