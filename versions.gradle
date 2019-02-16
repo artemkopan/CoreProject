@@ -9,4 +9,25 @@ ext.build_versions = build_versions
 
 def versions = [:]
 versions.kotlin_coroutines = '1.1.1'
+
+versions.androidx_core = '1.1.0-alpha04'
+versions.androidx_annotations = '1.0.0'
+versions.appcompat = '1.0.2'
+versions.androidx_livedata = '2.1.0-alpha02'
+versions.androidx_viewmodel = '2.1.0-alpha02'
+versions.androidx_fragment = '1.0.0'
+versions.androidx_recycler = '1.0.0'
+versions.androidx_paging = '2.1.0'
+
+versions.material = '1.1.0-alpha03'
+
+versions.glide = '4.9.0'
+
+//region Debug
+versions.stetho = '1.5.0'
+versions.timber = '4.7.1'
+versions.crashlytics = '2.9.9'
+//endregion
+
+
 ext.versions = versions

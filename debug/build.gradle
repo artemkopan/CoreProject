@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    compileSdkVersion build_versions.compile_sdk
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode build_versions.versionCode
+        versionName build_versions.versionName
+    }
+
+}
+
+dependencies {
+    implementation project(":common-core")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation "com.jakewharton.timber:timber:$versions.timber"
+
+    implementation "com.facebook.stetho:stetho:$versions.stetho"
+    implementation "com.facebook.stetho:stetho-okhttp3:$versions.stetho"
+    releaseImplementation project(":debug-stetho-noop")
+
+
+    implementation("com.crashlytics.sdk.android:crashlytics:$versions.crashlytics") {
+        transitive = true
+    }
+}

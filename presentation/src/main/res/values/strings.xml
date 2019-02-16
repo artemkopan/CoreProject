@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PresentationRuntime</string>
+
+    <string name="no_connection">Please, check your internet connection</string>
+    <string name="error_unknown">Unknown exception</string>
+
+</resources>

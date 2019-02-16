@@ -1,0 +1,21 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    compileSdkVersion build_versions.compile_sdk
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode build_versions.versionCode
+        versionName build_versions.versionName
+    }
+
+}
+
+dependencies {
+
+    //noinspection GradleDynamicVersion
+    implementation 'com.squareup.okhttp3:okhttp:3.+'
+
+}

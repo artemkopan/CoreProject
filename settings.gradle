@@ -1,1 +1,1 @@
-include ':app', ':debug-runtime', ':debug-core', ':presentation-runtime'
+include ':debug', ':presentation', ':debug-stetho-noop', ':common-core', ':common', ':design', ':image-loader', ':recycler', ':recycler-paging'
