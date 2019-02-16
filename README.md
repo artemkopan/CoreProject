@@ -4,7 +4,7 @@ The main modules for faster start a project;
 
 Use git command: ```git submodule add git://github.com/artemkopan/CoreProject.git base```
 
-Add into settings.gradle
+Add next configurations in settings.gradle:
 ```
 include ':common',
         ':core-ui', ':core-app', ':core-mvvm',
