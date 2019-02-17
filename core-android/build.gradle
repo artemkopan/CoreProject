@@ -18,7 +18,6 @@ android {
 
 dependencies {
     api project(':core-app')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin_version"
     implementation "androidx.annotation:annotation:$versions.androidx_annotations"
     implementation "androidx.lifecycle:lifecycle-livedata:$versions.androidx_livedata"
     implementation "androidx.fragment:fragment:$versions.androidx_fragment"
