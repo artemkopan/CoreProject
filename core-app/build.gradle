@@ -4,7 +4,7 @@ apply from: '../versions.gradle'
 
 dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin_version"
-    implementation "androidx.annotation:annotation:$versions.androidx_annotations"
+    api "androidx.annotation:annotation:$versions.androidx_annotations"
 }
 
 sourceCompatibility = "7"

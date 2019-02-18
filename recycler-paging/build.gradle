@@ -19,7 +19,5 @@ android {
 dependencies {
     implementation project(':core-android')
     implementation project(":recycler")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin_version"
-    implementation "androidx.recyclerview:recyclerview:$versions.androidx_recycler"
     implementation "androidx.paging:paging-runtime:$versions.androidx_paging"
 }

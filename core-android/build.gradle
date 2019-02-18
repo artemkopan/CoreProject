@@ -18,8 +18,8 @@ android {
 
 dependencies {
     api project(':core-app')
-    implementation "androidx.annotation:annotation:$versions.androidx_annotations"
-    implementation "androidx.lifecycle:lifecycle-livedata:$versions.androidx_livedata"
-    implementation "androidx.fragment:fragment:$versions.androidx_fragment"
-    implementation "androidx.core:core:$versions.androidx_core"
+    api "androidx.annotation:annotation:$versions.androidx_annotations"
+    api "androidx.lifecycle:lifecycle-livedata:$versions.androidx_livedata"
+    api "androidx.fragment:fragment:$versions.androidx_fragment"
+    api "androidx.core:core:$versions.androidx_core"
 }
