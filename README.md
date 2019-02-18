@@ -7,12 +7,15 @@ Use git command: ```git submodule add git://github.com/artemkopan/CoreProject.gi
 Add next configurations in settings.gradle:
 ```
 include ':core-android',
-        ':core-ui', ':core-app', ':core-mvvm',
-        ':debug',
-        ':debug-stetho-noop',
-        ':design',
-        ':image-loader',
-        ':recycler', ':recycler-paging'
+        ':core-app',
+        ':core-ui',
+        ':core-mvvm',
+        ':lib-debug',
+        ':lib-debug-stetho-noop',
+        ':lib-design',
+        ':lib-image-loader',
+        ':lib-recycler',
+        ':lib-recycler-paging'
 
 rootProject.children.each { project ->
     String relativeProjectPath = project.projectDir.path.replace(settingsDir.path, "")
