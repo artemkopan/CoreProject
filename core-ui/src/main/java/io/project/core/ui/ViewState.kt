@@ -53,9 +53,9 @@ open class ViewStateImpl<T> : ViewState<T> {
     override fun setLoading(isLoading: Boolean, isImmediately: Boolean) {
         (loading as MutableLiveData).let {
             if (isImmediately) {
-                it.value = true
+                it.value = isLoading
             } else {
-                it.postValue(true)
+                it.postValue(isLoading)
             }
         }
     }
