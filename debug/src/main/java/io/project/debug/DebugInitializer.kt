@@ -10,7 +10,7 @@ import timber.log.Timber
 
 object DebugInitializer {
 
-    fun init(application: Application) {
+    fun initLoggers(application: Application) {
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(application)
             Timber.plant(Timber.DebugTree())
