@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-
-import com.google.android.material.appbar.AppBarLayout;
-
-import org.jetbrains.annotations.NotNull;
-
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.appbar.AppBarLayout;
+import org.jetbrains.annotations.NotNull;
 
 public class ViewScrollBehavior extends CoordinatorLayout.Behavior<View> {
 

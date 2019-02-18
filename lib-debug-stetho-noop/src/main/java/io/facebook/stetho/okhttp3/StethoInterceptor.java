@@ -1,9 +1,9 @@
 package io.facebook.stetho.okhttp3;
 
-import java.io.IOException;
-
 import okhttp3.Interceptor;
 import okhttp3.Response;
+
+import java.io.IOException;
 
 public class StethoInterceptor implements Interceptor {
     @Override

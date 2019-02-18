@@ -1,8 +1,8 @@
 include ':core-android',
         ':core-ui', ':core-app', ':core-mvvm',
-        ':debug',
-        ':debug-stetho-noop',
-        ':design',
-        ':image-loader',
-        ':recycler', ':recycler-paging',
+        ':lib-debug',
+        ':lib-debug-stetho-noop',
+        ':lib-design',
+        ':lib-image-loader',
+        ':lib-recycler', ':lib-recycler-paging',
         ':test'

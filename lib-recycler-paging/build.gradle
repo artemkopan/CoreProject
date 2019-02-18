@@ -18,6 +18,6 @@ android {
 
 dependencies {
     implementation project(':core-android')
-    implementation project(":recycler")
+    implementation project(':lib-recycler')
     implementation "androidx.paging:paging-runtime:$versions.androidx_paging"
 }
