@@ -21,6 +21,8 @@ versions.androidx_fragment = '1.0.0'
 versions.androidx_recycler = '1.0.0'
 versions.androidx_paging = '2.1.0'
 
+versions.navigation = '1.0.0-beta02'
+
 versions.material = '1.1.0-alpha03'
 
 versions.glide = '4.9.0'
