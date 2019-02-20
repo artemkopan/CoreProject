@@ -22,6 +22,6 @@ androidExtensions {
 
 dependencies {
     implementation project(':core-android')
-    implementation "androidx.lifecycle:lifecycle-livedata:$versions.androidx_livedata"
-    implementation "androidx.appcompat:appcompat:$versions.androidx_appcompat"
+    api "androidx.lifecycle:lifecycle-livedata:$versions.androidx_livedata"
+    api "androidx.appcompat:appcompat:$versions.androidx_appcompat"
 }
