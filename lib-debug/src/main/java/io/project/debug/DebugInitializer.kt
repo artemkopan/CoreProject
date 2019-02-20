@@ -10,6 +10,7 @@ import timber.log.Timber
 
 object DebugInitializer {
 
+    @JvmStatic
     fun initLoggers(application: Application) {
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(application)
@@ -20,6 +21,7 @@ object DebugInitializer {
         }
     }
 
+    @JvmStatic
     fun initFabric(application: Application) {
         val crashlyticsCore = CrashlyticsCore.Builder()
             .disabled(BuildConfig.DEBUG)
