@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
 abstract class BaseFragment : Fragment(), BasePresentation, BasePresentationLifecycleOwner {
 
@@ -43,5 +45,9 @@ abstract class BaseFragment : Fragment(), BasePresentation, BasePresentationLife
     override fun showKeyboard(view: View) = basePresentationDelegate.showKeyboard(view)
 
     override fun hideKeyboard(view: View?) = basePresentationDelegate.hideKeyboard(view)
+
+    protected fun <T> LiveData<T>.subscribe(consumer: (T) -> Unit) {
+        this.observe(lifecycleOwner, Observer { it?.let(consumer) })
+    }
 
 }
