@@ -10,6 +10,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
 import io.project.core.android.extensions.string
 import io.project.core.app.Logger
+import io.project.core.ui.widgets.NotificationView
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
