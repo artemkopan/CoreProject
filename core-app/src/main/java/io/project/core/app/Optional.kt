@@ -17,3 +17,11 @@ class Optional<T> private constructor(val data: T?) : Serializable {
 }
 
 fun <T> T?.toOptional() = Optional.of(this)
+
+fun <T> Optional<T>.fold(onResult: (T) -> Unit, onEmpty: () -> Unit) {
+    if (isNotEmpty()) {
+        onResult(data!!)
+    } else {
+        onEmpty()
+    }
+}
