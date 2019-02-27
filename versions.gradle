@@ -20,7 +20,7 @@ versions.androidx_viewmodel = '2.1.0-alpha02'
 versions.androidx_fragment = '1.0.0'
 versions.androidx_recycler = '1.0.0'
 versions.androidx_paging = '2.1.0'
-versions.androix_exifinterface = '1.0.0'
+versions.androidx_exifinterface = '1.0.0'
 
 versions.navigation = '1.0.0-rc01'
 versions.constraintlayout = '2.0.0-alpha3'
