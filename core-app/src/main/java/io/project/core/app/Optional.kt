@@ -7,7 +7,9 @@ class Optional<T> private constructor(val data: T?) : Serializable {
     fun isEmpty() = data == null
     fun isNotEmpty() = !isEmpty()
 
-    fun get(default: T) = data ?: default
+    fun get(default: () -> T) = data ?: default()
+    suspend fun getAsync(default: suspend () -> T) = data ?: default()
+
     fun getOrThrow(message: String = "Data is null") = data ?: throw NullPointerException(message)
 
     companion object {
