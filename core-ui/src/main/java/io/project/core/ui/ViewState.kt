@@ -19,6 +19,11 @@ interface ViewState<T> {
     fun setValue(data: T, isImmediately: Boolean = false)
     fun setError(throwable: Throwable, isImmediately: Boolean = false)
 
+    fun clearLoading(isImmediately: Boolean)
+    fun clearData(isImmediately: Boolean)
+    fun clearError(isImmediately: Boolean)
+    fun clearAll(isImmediately: Boolean)
+
     companion object {
         fun <T> create(): ViewState<T> = ViewStateImpl()
     }
@@ -51,33 +56,42 @@ open class ViewStateImpl<T> : ViewState<T> {
     }
 
     override fun setLoading(isLoading: Boolean, isImmediately: Boolean) {
-        (loading as MutableLiveData).let {
-            if (isImmediately) {
-                it.value = isLoading
-            } else {
-                it.postValue(isLoading)
-            }
-        }
+        loading.performLiveData(isImmediately) { isLoading }
     }
 
     override fun setValue(data: T, isImmediately: Boolean) {
-        (this.data as MutableLiveData).let {
-            if (isImmediately) {
-                it.value = data
-            } else {
-                it.postValue(data)
-            }
-        }
+        this.data.performLiveData(isImmediately) { data }
     }
 
     override fun setError(throwable: Throwable, isImmediately: Boolean) {
-        (error as MutableLiveData).let {
+        error.performLiveData(isImmediately) { throwable }
+    }
+
+    override fun clearLoading(isImmediately: Boolean) {
+        loading.performLiveData(isImmediately) { null }
+    }
+
+    override fun clearData(isImmediately: Boolean) {
+        data.performLiveData(isImmediately) { null }
+    }
+
+    override fun clearError(isImmediately: Boolean) {
+        error.performLiveData(isImmediately) { null }
+    }
+
+    override fun clearAll(isImmediately: Boolean) {
+        clearLoading(isImmediately)
+        clearData(isImmediately)
+        clearError(isImmediately)
+    }
+
+    private inline fun <T> LiveData<T>.performLiveData(isImmediately: Boolean, value: () -> T?) {
+        (this as MutableLiveData<T>).let {
             if (isImmediately) {
-                it.value = throwable
+                it.value = value()
             } else {
-                it.postValue(throwable)
+                it.postValue(value())
             }
         }
     }
-
 }

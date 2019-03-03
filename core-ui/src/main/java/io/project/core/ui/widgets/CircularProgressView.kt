@@ -3,6 +3,8 @@ package io.project.core.ui.widgets
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import io.project.core.ui.R
@@ -22,25 +24,25 @@ class CircularProgressView @JvmOverloads constructor(
 
             ta.getDimensionPixelSize(R.styleable.CircularProgressView_cpv_strokeWidth, drawable.strokeWidth.toInt())
                 .run {
-                    drawable.strokeWidth = this.toFloat()
+                    strokeWidth = this.toFloat()
                 }
 
             ta.getFloat(R.styleable.CircularProgressView_cpv_maxProgress, drawable.max).run {
-                drawable.max = this
+                maxProgress = this
             }
 
             ta.getFloat(R.styleable.CircularProgressView_cpv_startAngle, drawable.startAngle).run {
-                drawable.startAngle = this
+                startAngle = this
             }
 
             ta.getColor(R.styleable.CircularProgressView_cpv_backgroundColor, drawable.backgroundColor)
                 .run {
-                    drawable.backgroundColor = this
+                    progressBackgroundColor = this
                 }
 
             ta.getColor(R.styleable.CircularProgressView_cpv_foregroundColor, drawable.foregroundColor)
                 .run {
-                    drawable.foregroundColor = this
+                    progressForegroundColor = this
                 }
 
         }
@@ -99,4 +101,28 @@ class CircularProgressView @JvmOverloads constructor(
 
     fun setProgressAnimate(progress: Float) = drawable.setProgressWithAnimation(progress)
 
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val bundle = Bundle()
+        bundle.putParcelable(ARG_SUPER_STATE, super.onSaveInstanceState())
+        bundle.putFloat(ARG_PROGRESS, maxProgress)
+        bundle.putFloat(PROGRESS, progress)
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        var newState = state
+        if (state is Bundle) {
+            maxProgress = state.getFloat(ARG_PROGRESS, maxProgress)
+            progress = state.getFloat(PROGRESS, progress)
+            newState = state.getParcelable(ARG_SUPER_STATE)
+        }
+        super.onRestoreInstanceState(newState)
+    }
+
+    companion object {
+        private const val ARG_SUPER_STATE = "superState"
+        private const val ARG_PROGRESS = "maxProgress"
+        private const val PROGRESS = "progress"
+    }
 }

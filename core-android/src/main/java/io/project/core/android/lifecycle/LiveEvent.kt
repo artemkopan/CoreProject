@@ -1,42 +1,31 @@
 package io.project.core.android.lifecycle
 
 import androidx.annotation.MainThread
+import androidx.collection.ArraySet
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import java.util.*
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicBoolean
 
 class LiveEvent<T> : MediatorLiveData<T>() {
 
-    private val observers = ConcurrentHashMap<LifecycleOwner, MutableSet<ObserverWrapper<T>>>()
+    private val observers = ArraySet<ObserverWrapper<in T>>()
 
+    @MainThread
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         val wrapper = ObserverWrapper(observer)
-        val set = observers[owner]
-        set?.apply {
-            add(wrapper)
-        } ?: run {
-            val newSet = Collections.newSetFromMap(ConcurrentHashMap<ObserverWrapper<T>, Boolean>())
-            newSet.add(wrapper)
-            observers[owner] = newSet
-        }
+        observers.add(wrapper)
         super.observe(owner, wrapper)
     }
 
-    override fun removeObservers(owner: LifecycleOwner) {
-        observers.remove(owner)
-        super.removeObservers(owner)
-    }
-
+    @MainThread
     override fun removeObserver(observer: Observer<in T>) {
-        observers.forEach {
-            if (it.value.remove(observer)) {
-                if (it.value.isEmpty()) {
-                    observers.remove(it.key)
+        if (!observers.remove(observer)) {
+            val iterator = observers.iterator()
+            while (iterator.hasNext()) {
+                if (iterator.next().observer == observer) {
+                    iterator.remove()
+                    break
                 }
-                return@forEach
             }
         }
         super.removeObserver(observer)
@@ -44,30 +33,24 @@ class LiveEvent<T> : MediatorLiveData<T>() {
 
     @MainThread
     override fun setValue(t: T?) {
-        observers.forEach { it.value.forEach { wrapper -> wrapper.newValue() } }
+        observers.forEach { it.newValue() }
         super.setValue(t)
     }
 
-    /**
-     * Used for cases where T is Void, to make calls cleaner.
-     */
-    @MainThread
-    fun call() {
-        value = null
-    }
+    private class ObserverWrapper<T>(val observer: Observer<T>) : Observer<T> {
 
-    private class ObserverWrapper<T>(private val observer: Observer<in T>) : Observer<T> {
-
-        private val pending = AtomicBoolean(false)
+        private var pending = false
 
         override fun onChanged(t: T?) {
-            if (pending.compareAndSet(true, false)) {
+            if (pending) {
+                pending = false
                 observer.onChanged(t)
             }
         }
 
         fun newValue() {
-            pending.set(true)
+            pending = true
         }
     }
+
 }
