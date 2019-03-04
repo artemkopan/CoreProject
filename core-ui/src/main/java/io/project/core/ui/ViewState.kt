@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.project.core.android.lifecycle.toSingleEvent
+import io.project.core.app.Optional
+import io.project.core.app.toOptional
 import kotlin.LazyThreadSafetyMode.PUBLICATION
 
 interface ViewState<T> {
@@ -24,6 +26,10 @@ interface ViewState<T> {
     fun clearError(isImmediately: Boolean)
     fun clearAll(isImmediately: Boolean)
 
+    val value: Optional<T>
+    val isLoading: Optional<Boolean>
+    val error: Optional<Throwable>
+
     companion object {
         fun <T> create(): ViewState<T> = ViewStateImpl()
     }
@@ -31,52 +37,52 @@ interface ViewState<T> {
 
 open class ViewStateImpl<T> : ViewState<T> {
 
-    private val data: LiveData<T> by lazy(PUBLICATION) { MutableLiveData<T>() }
-    private val error: LiveData<Throwable> by lazy(PUBLICATION) { MutableLiveData<Throwable>() }
-    private val loading: LiveData<Boolean> by lazy(PUBLICATION) { MutableLiveData<Boolean>() }
+    private val valueLiveData: LiveData<T> by lazy(PUBLICATION) { MutableLiveData<T>() }
+    private val errorLiveData: LiveData<Throwable> by lazy(PUBLICATION) { MutableLiveData<Throwable>() }
+    private val loadingLiveData: LiveData<Boolean> by lazy(PUBLICATION) { MutableLiveData<Boolean>() }
 
     override fun observeLoading(owner: LifecycleOwner, accept: Boolean.() -> Unit) {
-        loading.observe(owner, Observer { it?.let(accept) })
+        loadingLiveData.observe(owner, Observer { it?.let(accept) })
     }
 
     override fun singleData(owner: LifecycleOwner, accept: T.() -> Unit) {
-        data.toSingleEvent().observe(owner, Observer { it?.let(accept) })
+        valueLiveData.toSingleEvent().observe(owner, Observer { it?.let(accept) })
     }
 
     override fun observeData(owner: LifecycleOwner, accept: T.() -> Unit) {
-        data.observe(owner, Observer { it?.let(accept) })
+        valueLiveData.observe(owner, Observer { it?.let(accept) })
     }
 
     override fun singleError(owner: LifecycleOwner, accept: Throwable.() -> Unit) {
-        error.toSingleEvent().observe(owner, Observer { it?.let(accept) })
+        errorLiveData.toSingleEvent().observe(owner, Observer { it?.let(accept) })
     }
 
     override fun observeError(owner: LifecycleOwner, accept: Throwable.() -> Unit) {
-        error.observe(owner, Observer { it?.let(accept) })
+        errorLiveData.observe(owner, Observer { it?.let(accept) })
     }
 
     override fun setLoading(isLoading: Boolean, isImmediately: Boolean) {
-        loading.performLiveData(isImmediately) { isLoading }
+        loadingLiveData.performLiveData(isImmediately) { isLoading }
     }
 
     override fun setValue(data: T, isImmediately: Boolean) {
-        this.data.performLiveData(isImmediately) { data }
+        this.valueLiveData.performLiveData(isImmediately) { data }
     }
 
     override fun setError(throwable: Throwable, isImmediately: Boolean) {
-        error.performLiveData(isImmediately) { throwable }
+        errorLiveData.performLiveData(isImmediately) { throwable }
     }
 
     override fun clearLoading(isImmediately: Boolean) {
-        loading.performLiveData(isImmediately) { null }
+        loadingLiveData.performLiveData(isImmediately) { null }
     }
 
     override fun clearData(isImmediately: Boolean) {
-        data.performLiveData(isImmediately) { null }
+        valueLiveData.performLiveData(isImmediately) { null }
     }
 
     override fun clearError(isImmediately: Boolean) {
-        error.performLiveData(isImmediately) { null }
+        errorLiveData.performLiveData(isImmediately) { null }
     }
 
     override fun clearAll(isImmediately: Boolean) {
@@ -84,6 +90,15 @@ open class ViewStateImpl<T> : ViewState<T> {
         clearData(isImmediately)
         clearError(isImmediately)
     }
+
+    override val value: Optional<T>
+        get() = valueLiveData.value.toOptional()
+
+    override val isLoading: Optional<Boolean>
+        get() = loadingLiveData.value.toOptional()
+
+    override val error: Optional<Throwable>
+        get() = errorLiveData.value.toOptional()
 
     private inline fun <T> LiveData<T>.performLiveData(isImmediately: Boolean, value: () -> T?) {
         (this as MutableLiveData<T>).let {
