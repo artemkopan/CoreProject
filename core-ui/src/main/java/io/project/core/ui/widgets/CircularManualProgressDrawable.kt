@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.util.Property
 import android.view.animation.DecelerateInterpolator
 import io.project.core.app.Delegates
+import io.project.core.app.Logger
 import io.project.core.app.lazyNonSafety
 
 
@@ -26,10 +27,12 @@ class CircularManualProgressDrawable : Drawable() {
 
     var max by Delegates.observeChanges(100f) { invalidateSelf() }
 
-    var progress by Delegates.observeChanges(0f) {
-        progressAnimator.cancel()
-        internalProgress = it
-    }
+    var progress: Float
+        set(value) {
+            progressInternal = value
+            progressAnimator.cancel()
+        }
+        get() = progressInternal
 
     var startAngle = -90f
         set(value) {
@@ -56,11 +59,10 @@ class CircularManualProgressDrawable : Drawable() {
     private val backgroundPaint: Paint
     private val foregroundPaint: Paint
 
-    private var internalProgress : Float = 0f
-        set(value) {
-            field = value
-            invalidateSelf()
-        }
+    private var progressInternal by Delegates.observeChanges(-1f){
+        Logger.d("progress $it")
+        invalidateSelf()
+    }
 
     init {
         backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -87,7 +89,7 @@ class CircularManualProgressDrawable : Drawable() {
 
     override fun draw(canvas: Canvas) {
         canvas.drawOval(rectF, backgroundPaint)
-        val angle = 360 * internalProgress / max
+        val angle = 360 * progressInternal / max
         canvas.drawArc(rectF, startAngle, angle, false, foregroundPaint)
     }
 
@@ -112,7 +114,7 @@ class CircularManualProgressDrawable : Drawable() {
     }
 
     private val progressAnimator: ObjectAnimator by lazyNonSafety {
-        val objectAnimator = ObjectAnimator.ofFloat(this, PROGRESS, internalProgress)
+        val objectAnimator = ObjectAnimator.ofFloat(this, PROGRESS, progressInternal)
         objectAnimator.duration = 1500
         objectAnimator.interpolator = DecelerateInterpolator()
         return@lazyNonSafety objectAnimator
@@ -121,10 +123,10 @@ class CircularManualProgressDrawable : Drawable() {
     companion object {
         @JvmStatic
         private val PROGRESS =
-            object : Property<CircularManualProgressDrawable, Float>(Float::class.java, "internalProgress") {
-                override fun get(target: CircularManualProgressDrawable?): Float = target?.internalProgress ?: 0f
+            object : Property<CircularManualProgressDrawable, Float>(Float::class.java, "progressInternal") {
+                override fun get(target: CircularManualProgressDrawable?): Float = target?.progressInternal ?: 0f
                 override fun set(target: CircularManualProgressDrawable?, value: Float) {
-                    target?.internalProgress = value
+                    target?.progressInternal = value
                 }
             }
 
