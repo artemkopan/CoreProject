@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import io.project.core.android.lifecycle.LiveEvent
 import io.project.core.android.lifecycle.toSingleEvent
 import io.project.core.app.Optional
 import io.project.core.app.toOptional
@@ -38,7 +39,9 @@ interface ViewState<T> {
 open class ViewStateImpl<T> : ViewState<T> {
 
     private val valueLiveData: LiveData<T> by lazy(PUBLICATION) { MutableLiveData<T>() }
+    private val singleValueLiveData: LiveEvent<T> by lazy(PUBLICATION) { valueLiveData.toSingleEvent() }
     private val errorLiveData: LiveData<Throwable> by lazy(PUBLICATION) { MutableLiveData<Throwable>() }
+    private val singleErrorLiveData: LiveEvent<Throwable> by lazy(PUBLICATION) { errorLiveData.toSingleEvent() }
     private val loadingLiveData: LiveData<Boolean> by lazy(PUBLICATION) { MutableLiveData<Boolean>() }
 
     override fun observeLoading(owner: LifecycleOwner, accept: Boolean.() -> Unit) {
@@ -46,7 +49,7 @@ open class ViewStateImpl<T> : ViewState<T> {
     }
 
     override fun singleData(owner: LifecycleOwner, accept: T.() -> Unit) {
-        valueLiveData.toSingleEvent().observe(owner, Observer { it?.let(accept) })
+        singleValueLiveData.observe(owner, Observer { it?.let(accept) })
     }
 
     override fun observeData(owner: LifecycleOwner, accept: T.() -> Unit) {
@@ -54,7 +57,7 @@ open class ViewStateImpl<T> : ViewState<T> {
     }
 
     override fun singleError(owner: LifecycleOwner, accept: Throwable.() -> Unit) {
-        errorLiveData.toSingleEvent().observe(owner, Observer { it?.let(accept) })
+        singleErrorLiveData.observe(owner, Observer { it?.let(accept) })
     }
 
     override fun observeError(owner: LifecycleOwner, accept: Throwable.() -> Unit) {
