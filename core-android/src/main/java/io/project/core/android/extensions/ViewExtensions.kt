@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnPreDrawListener
 import android.widget.*
 import androidx.annotation.Px
+import io.project.core.android.adapter.AdapterViewInteractionListener
 import io.project.core.app.Optional
 import io.project.core.app.toOptional
 
@@ -68,6 +69,10 @@ inline fun AutoCompleteTextView.unregisterAdapter() {
 
 inline fun AbsSpinner.unregisterAdapter() {
     adapter = null
+}
+
+fun AdapterView<*>.setItemClickEventListener(onItemClick: (Int) -> Unit) {
+    AdapterViewInteractionListener(this).onUserSelectionListener = onItemClick
 }
 
 

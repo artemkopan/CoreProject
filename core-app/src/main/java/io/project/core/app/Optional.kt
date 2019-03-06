@@ -10,7 +10,7 @@ class Optional<T> private constructor(val data: T?) : Serializable {
     fun get(default: () -> T) = data ?: default()
     suspend fun getAsync(default: suspend () -> T) = data ?: default()
 
-    fun getOrThrow(message: String = "Data is null") = data ?: throw NullPointerException(message)
+    fun getOrThrow(message: () -> String = { "Data is null" }) = data ?: throw NullPointerException(message())
 
     companion object {
         fun <T> empty(): Optional<T> = Optional(null)

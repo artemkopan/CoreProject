@@ -13,16 +13,16 @@ abstract class BaseWidgetAdapter<T> : BaseAdapter(), Filterable {
 
     protected var items = emptyList<T>()
 
-    fun set(items: List<T>, notify: Boolean = true) {
+    open fun set(items: List<T>, notify: Boolean = true) {
         this.items = items
         if (notify) {
             notifyDataSetChanged()
         }
     }
 
-    override fun getItem(position: Int): T = items[position]
+    override fun getItem(position: Int): T? = items[position]
 
-    fun getItem(adapterView: AdapterView<out Adapter>): T {
+    fun getItem(adapterView: AdapterView<out Adapter>): T? {
         return getItem(adapterView.selectedItemPosition)
     }
 
