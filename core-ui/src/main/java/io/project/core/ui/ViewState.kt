@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.project.core.android.lifecycle.LiveEvent
 import io.project.core.android.lifecycle.toSingleEvent
+import io.project.core.app.Logger
 import io.project.core.app.Optional
 import io.project.core.app.toOptional
 import kotlin.LazyThreadSafetyMode.PUBLICATION
@@ -103,12 +104,20 @@ open class ViewStateImpl<T> : ViewState<T> {
     override val error: Optional<Throwable>
         get() = errorLiveData.value.toOptional()
 
-    private inline fun <T> LiveData<T>.performLiveData(isImmediately: Boolean, value: () -> T?) {
+
+    override fun toString(): String {
+        return "ViewStateImpl[isLoading: ${loadingLiveData.value}, data: ${valueLiveData.value}, error: ${errorLiveData.value}]"
+    }
+
+    private inline fun <T> LiveData<T>.performLiveData(isImmediately: Boolean, valueBlock: () -> T?) {
         (this as MutableLiveData<T>).let {
+            val value = valueBlock()
+            if (BuildConfig.DEBUG)
+                Logger.d("Perform View State: ${this@ViewStateImpl}, value: $value, isImmediately: $isImmediately")
             if (isImmediately) {
-                it.value = value()
+                it.value = value
             } else {
-                it.postValue(value())
+                it.postValue(value)
             }
         }
     }

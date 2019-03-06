@@ -29,8 +29,9 @@ class CircularManualProgressDrawable : Drawable() {
 
     var progress: Float
         set(value) {
-            progressInternal = value
+            Logger.d("Cancel animator")
             progressAnimator.cancel()
+            progressInternal = value
         }
         get() = progressInternal
 
@@ -60,7 +61,6 @@ class CircularManualProgressDrawable : Drawable() {
     private val foregroundPaint: Paint
 
     private var progressInternal by Delegates.observeChanges(-1f){
-        Logger.d("progress $it")
         invalidateSelf()
     }
 
@@ -109,6 +109,7 @@ class CircularManualProgressDrawable : Drawable() {
     fun setProgressWithAnimation(progress: Float) {
         progressAnimator.run {
             setFloatValues(progress)
+            cancel()
             start()
         }
     }
@@ -127,6 +128,7 @@ class CircularManualProgressDrawable : Drawable() {
                 override fun get(target: CircularManualProgressDrawable?): Float = target?.progressInternal ?: 0f
                 override fun set(target: CircularManualProgressDrawable?, value: Float) {
                     target?.progressInternal = value
+                    Logger.d("update animator $value")
                 }
             }
 
