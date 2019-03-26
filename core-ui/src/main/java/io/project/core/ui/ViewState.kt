@@ -112,8 +112,9 @@ open class ViewStateImpl<T> : ViewState<T> {
     private inline fun <T> LiveData<T>.performLiveData(isImmediately: Boolean, valueBlock: () -> T?) {
         (this as MutableLiveData<T>).let {
             val value = valueBlock()
-            if (BuildConfig.DEBUG)
+            if (BuildConfig.DEBUG) {
                 Logger.d("Perform View State: ${this@ViewStateImpl}, value: $value, isImmediately: $isImmediately")
+            }
             if (isImmediately) {
                 it.value = value
             } else {

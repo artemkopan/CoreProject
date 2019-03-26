@@ -17,6 +17,18 @@ class Optional<T> private constructor(val data: T?) : Serializable {
         fun <T> of(t: T?): Optional<T> = if (t == null) empty() else Optional(t)
     }
 
+    override fun equals(other: Any?): Boolean {
+        return if (other is Optional<*>) {
+            if (data == null && other.data == null) {
+                true
+            } else {
+                data == other.data
+            }
+        } else {
+            super.equals(other)
+        }
+    }
+
 }
 
 fun <T> T?.toOptional() = Optional.of(this)

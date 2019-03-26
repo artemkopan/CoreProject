@@ -42,6 +42,11 @@ fun View.setSize(
     } ?: false
 }
 
+fun View.margin(left: Int, top: Int, right: Int, bottom: Int) {
+    val marginLayoutParams = layoutParams as ViewGroup.MarginLayoutParams
+    marginLayoutParams.setMargins(left, top, right, bottom)
+    layoutParams = marginLayoutParams
+}
 
 fun View.heightWithMargins(): Int {
     return if (layoutParams is ViewGroup.MarginLayoutParams) {
