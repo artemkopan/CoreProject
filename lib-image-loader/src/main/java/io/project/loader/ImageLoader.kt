@@ -24,8 +24,8 @@ const val NO_OVERRIDE = -1
 fun createRequestOptions(
     @Px width: Int = NO_OVERRIDE,
     @Px height: Int = NO_OVERRIDE,
-    errorDrawable: GlideHolder = GlideHolder.Res(R.drawable.image_error_default),
-    placeholderDrawable: GlideHolder = GlideHolder.Res(R.drawable.image_placeholder_default),
+    errorDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_error),
+    placeholderDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_default),
     centerCrop: Boolean = true,
     skipMemoryCache: Boolean = false,
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC,
@@ -70,8 +70,8 @@ fun createRequestOptions(
 fun ImageView.loadCircle(
     model: Any?,
     source: GlideSource = GlideSource.Context(context.applicationContext),
-    errorDrawable: GlideHolder = GlideHolder.Res(R.drawable.image_circle_error_default),
-    placeholderDrawable: GlideHolder = GlideHolder.Res(R.drawable.image_circle_placeholder_default)
+    errorDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_circle_error),
+    placeholderDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_circle_default)
 ) {
     loadImage(
         model = model,
@@ -89,8 +89,8 @@ fun ImageView.loadImage(
     model: Any?,
     @Px width: Int = NO_OVERRIDE,
     @Px height: Int = NO_OVERRIDE,
-    errorDrawable: GlideHolder = GlideHolder.Res(R.drawable.image_error_default),
-    placeholderDrawable: GlideHolder = GlideHolder.Res(R.drawable.image_placeholder_default),
+    errorDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_error),
+    placeholderDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_default),
     centerCrop: Boolean = true,
     circleCrop: Boolean = false,
     animate: Boolean = false,
