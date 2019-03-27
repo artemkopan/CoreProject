@@ -7,7 +7,9 @@ abstract class Mapper<To, From> {
 
     abstract fun map(from: From, params: Any?): To
 
-    open fun reverseMap(to: To): From {
+    fun reverseMap(to: To): From = reverseMap(to, Unit)
+
+    open fun reverseMap(to: To, params: Any?): From {
         throw notImplementedException()
     }
 
@@ -30,13 +32,13 @@ abstract class Mapper<To, From> {
         return list
     }
 
-    fun reverseMapList(typeList: List<To>): List<From> {
+    fun reverseMapList(typeList: List<To>, params: Any?): List<From> {
 
         val list = ArrayList<From>()
 
         for (type in typeList) {
 
-            list.add(reverseMap(type))
+            list.add(reverseMap(type, params))
 
         }
 
