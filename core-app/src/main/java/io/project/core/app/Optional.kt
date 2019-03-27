@@ -13,7 +13,9 @@ class Optional<T> private constructor(val data: T?) : Serializable {
     fun getOrThrow(message: () -> String = { "Data is null" }) = data ?: throw NullPointerException(message())
 
     companion object {
-        fun <T> empty(): Optional<T> = Optional(null)
+        private val OPTIONAL_EMPTY = Optional(null)
+
+        fun <T> empty(): Optional<T> = OPTIONAL_EMPTY as Optional<T>
         fun <T> of(t: T?): Optional<T> = if (t == null) empty() else Optional(t)
     }
 
@@ -27,6 +29,10 @@ class Optional<T> private constructor(val data: T?) : Serializable {
         } else {
             super.equals(other)
         }
+    }
+
+    override fun hashCode(): Int {
+        return data?.hashCode() ?: 0
     }
 
 }
