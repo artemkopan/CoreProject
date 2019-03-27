@@ -70,10 +70,12 @@ open class ViewStateImpl<T> : ViewState<T> {
     }
 
     override fun setValue(data: T, isImmediately: Boolean) {
+        if (BuildConfig.DEBUG) Logger.d("setValue: $data")
         this.valueLiveData.performLiveData(isImmediately) { data }
     }
 
     override fun setError(throwable: Throwable, isImmediately: Boolean) {
+        if (BuildConfig.DEBUG) Logger.d("setError", throwable)
         errorLiveData.performLiveData(isImmediately) { throwable }
     }
 
@@ -112,9 +114,6 @@ open class ViewStateImpl<T> : ViewState<T> {
     private inline fun <T> LiveData<T>.performLiveData(isImmediately: Boolean, valueBlock: () -> T?) {
         (this as MutableLiveData<T>).let {
             val value = valueBlock()
-            if (BuildConfig.DEBUG) {
-                Logger.d("Perform View State: ${this@ViewStateImpl}, value: $value, isImmediately: $isImmediately")
-            }
             if (isImmediately) {
                 it.value = value
             } else {
