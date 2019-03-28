@@ -7,12 +7,8 @@ class Optional<T> private constructor(val data: T?) : Serializable {
     fun isEmpty() = data == null
     fun isNotEmpty() = !isEmpty()
 
-    fun get(default: () -> T) = data ?: default()
-    fun <M> getAndMap(transform: (T) -> M, default: () -> M) = data?.let(transform) ?: default()
-    suspend fun getAsync(default: suspend () -> T) = data ?: default()
-    suspend fun <M> getAndMapAsync(transform: suspend (T) -> M, default: suspend () -> M): M {
-        return data?.let { transform(it) } ?: default()
-    }
+    inline fun get(default: () -> T) = data ?: default()
+    inline fun <M> getAndMap(transform: (T) -> M, default: () -> M) = data?.let(transform) ?: default()
 
     fun getOrThrow(message: () -> String = { "Data is null" }) = data ?: throw NullPointerException(message())
 

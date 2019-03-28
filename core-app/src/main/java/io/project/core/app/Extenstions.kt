@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream
 
 fun <T> lazyNonSafety(initializer: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, initializer)
 
+fun CharSequence?.toStringOrEmpty() = this?.toString().orEmpty()
 fun String?.nullToEmpty() = this ?: ""
 fun String?.emptyToNull() = if (isNullOrEmpty()) null else this
 
