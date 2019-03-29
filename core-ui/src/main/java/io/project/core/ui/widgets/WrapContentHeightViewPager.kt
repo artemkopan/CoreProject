@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager
 class WrapContentHeightViewPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var heightSpec = heightMeasureSpec
+        val heightSpec: Int
 
         var height = 0
         for (i in 0 until childCount) {
