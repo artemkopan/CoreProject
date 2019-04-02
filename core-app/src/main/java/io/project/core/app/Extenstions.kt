@@ -28,3 +28,7 @@ inline fun <reified T> ByteArray.deserialize(): T {
         }
     }
 }
+
+fun Double?.toZero() = this ?: 0.0
+fun Float?.toZero() = this ?: 0f
+fun Int?.toZero() = this ?: 0
