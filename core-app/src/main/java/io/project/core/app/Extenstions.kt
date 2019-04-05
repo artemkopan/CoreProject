@@ -34,4 +34,4 @@ fun Float?.orZero() = this ?: 0f
 fun Int?.orZero() = this ?: 0
 
 
-fun Map<Any, Any>.log() = this.keys.joinToString { "Key: $it | Data: ${get(it)}" }
+fun Map<*, *>.log() = this.keys.joinToString { "Key: $it | Data: ${get(it)}" }
