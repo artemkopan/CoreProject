@@ -29,6 +29,9 @@ inline fun <reified T> ByteArray.deserialize(): T {
     }
 }
 
-fun Double?.toZero() = this ?: 0.0
-fun Float?.toZero() = this ?: 0f
-fun Int?.toZero() = this ?: 0
+fun Double?.orZero() = this ?: 0.0
+fun Float?.orZero() = this ?: 0f
+fun Int?.orZero() = this ?: 0
+
+
+fun Map<Any, Any>.log() = this.keys.joinToString { "Key: $it | Data: ${get(it)}" }
