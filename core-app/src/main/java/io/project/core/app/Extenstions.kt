@@ -33,5 +33,6 @@ fun Double?.orZero() = this ?: 0.0
 fun Float?.orZero() = this ?: 0f
 fun Int?.orZero() = this ?: 0
 
+fun Int.convertColorToHex() = String.format("#%06X", 0xFFFFFF and this)
 
 fun Map<*, *>.log() = this.keys.joinToString { "Key: $it | Data: ${get(it)}" }
