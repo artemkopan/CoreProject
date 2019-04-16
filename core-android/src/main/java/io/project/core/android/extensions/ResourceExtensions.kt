@@ -25,6 +25,7 @@ infix fun Fragment.color(@ColorRes colorRes: Int) = ContextCompat.getColor(this.
 infix fun Fragment.dimen(@DimenRes dimenRes: Int) = resources.getDimensionPixelSize(dimenRes)
 infix fun Fragment.integer(@IntegerRes integerRes: Int) = resources.getInteger(integerRes)
 infix fun Fragment.string(@StringRes stringRes: Int): String = resources.getString(stringRes)
+fun Fragment.string(@StringRes stringRes: Int, args: Any): String = resources.getString(stringRes, args)
 infix fun Fragment.drawable(@DrawableRes drawableRes: Int) = ContextCompat.getDrawable(this.context!!, drawableRes)!!
 
 
