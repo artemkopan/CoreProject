@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.Px
@@ -141,6 +142,32 @@ fun ImageView.loadImage(
     request.apply(options)
     request.into(this)
 }
+
+
+fun View.loadBackground(
+    model: Any?,
+    source: GlideSource = GlideSource.Context(context.applicationContext),
+    errorDrawable: GlideHolder = GlideHolder.Empty,
+    placeholderDrawable: GlideHolder = GlideHolder.Empty,
+    animate: Boolean
+) {
+
+    val request = when (source) {
+        is GlideSource.Context -> Glide.with(source.context)
+        is GlideSource.View -> Glide.with(source.view)
+        is GlideSource.Activity -> Glide.with(source.activity)
+        is GlideSource.Fragment -> Glide.with(source.fragment)
+    }
+        .asDrawable()
+        .load(model)
+
+    if (animate) {
+        request.transition(DrawableTransitionOptions.withCrossFade())
+    }
+
+    request.into(ViewBackgroundTarget(this))
+}
+
 
 fun ImageView.loadClear(source: GlideSource = GlideSource.Context(context.applicationContext)) {
     when (source) {
