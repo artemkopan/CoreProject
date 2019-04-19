@@ -19,7 +19,7 @@ abstract class Mapper<To, From> {
 
     fun mapList(typeList: List<From>): List<To> = mapList(typeList, Unit)
 
-    fun mapList(typeList: List<From>, params: Any? = null): List<To> {
+    open fun mapList(typeList: List<From>, params: Any? = null): List<To> {
 
         val list = ArrayList<To>()
 
@@ -32,7 +32,7 @@ abstract class Mapper<To, From> {
         return list
     }
 
-    fun reverseMapList(typeList: List<To>, params: Any?): List<From> {
+    open fun reverseMapList(typeList: List<To>, params: Any?): List<From> {
 
         val list = ArrayList<From>()
 
