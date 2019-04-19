@@ -149,7 +149,13 @@ fun View.loadBackground(
     source: GlideSource = GlideSource.Context(context.applicationContext),
     errorDrawable: GlideHolder = GlideHolder.Empty,
     placeholderDrawable: GlideHolder = GlideHolder.Empty,
-    animate: Boolean
+    animate: Boolean = true,
+    @Px width: Int = NO_OVERRIDE,
+    @Px height: Int = NO_OVERRIDE,
+    centerCrop: Boolean = true,
+    skipMemoryCache: Boolean = false,
+    diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC,
+    vararg transformations: Transformation<Bitmap>
 ) {
 
     val request = when (source) {
@@ -165,6 +171,19 @@ fun View.loadBackground(
         request.transition(DrawableTransitionOptions.withCrossFade())
     }
 
+
+    val options = createRequestOptions(
+        width,
+        height,
+        errorDrawable,
+        placeholderDrawable,
+        centerCrop,
+        skipMemoryCache,
+        diskCacheStrategy,
+        *transformations
+    )
+
+    request.apply(options)
     request.into(ViewBackgroundTarget(this))
 }
 
