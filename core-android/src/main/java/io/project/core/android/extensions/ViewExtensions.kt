@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnPreDrawListener
 import android.widget.*
 import androidx.annotation.Px
+import androidx.core.view.ViewCompat
 import io.project.core.android.adapter.AdapterViewInteractionListener
 import io.project.core.app.Optional
 import io.project.core.app.toOptional
@@ -31,8 +32,8 @@ infix fun View.setHeight(@Px height: Int): Boolean {
 }
 
 fun View.setSize(
-    @Px width: Optional<Int> = Optional.empty(),
-    @Px height: Optional<Int> = Optional.empty()
+    width: Optional<Int> = Optional.empty(),
+    height: Optional<Int> = Optional.empty()
 ): Boolean {
     return layoutParams?.let {
         width.data?.run { it.width = this }
@@ -54,6 +55,24 @@ fun View.heightWithMargins(): Int {
         height + marginLayoutParams.bottomMargin + marginLayoutParams.topMargin
     } else {
         height
+    }
+}
+
+fun View.requestApplyInsetsWhenAttached() {
+    if (isAttachedToWindow) {
+        // We're already attached, just request as normal
+        ViewCompat.requestApplyInsets(this)
+    } else {
+        // We're not attached to the hierarchy, add a listener to
+        // request when we are
+        addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {
+                v.removeOnAttachStateChangeListener(this)
+                ViewCompat.requestApplyInsets(this@requestApplyInsetsWhenAttached)
+            }
+
+            override fun onViewDetachedFromWindow(v: View) = Unit
+        })
     }
 }
 
