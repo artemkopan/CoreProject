@@ -29,12 +29,18 @@ fun Fragment.string(@StringRes stringRes: Int, args: Any): String = resources.ge
 infix fun Fragment.drawable(@DrawableRes drawableRes: Int) = ContextCompat.getDrawable(this.context!!, drawableRes)!!
 
 
-fun Context.fromAttrData(
+fun Context.fromAttrIntData(
+    @AttrRes attr: Int,
+    typedValue: TypedValue = TypedValue(),
+    resolveRefs: Boolean = true
+): Int = theme.fromAttrIntData(attr, typedValue, resolveRefs)
+
+fun Resources.Theme.fromAttrIntData(
     @AttrRes attr: Int,
     typedValue: TypedValue = TypedValue(),
     resolveRefs: Boolean = true
 ): Int {
-    this.theme.resolveAttribute(attr, typedValue, resolveRefs)
+    this.resolveAttribute(attr, typedValue, resolveRefs)
     return typedValue.data
 }
 
