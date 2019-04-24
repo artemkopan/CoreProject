@@ -8,6 +8,7 @@ import android.view.ViewTreeObserver.OnPreDrawListener
 import android.widget.*
 import androidx.annotation.Px
 import androidx.core.view.ViewCompat
+import io.project.core.R
 import io.project.core.android.adapter.AdapterViewInteractionListener
 import io.project.core.app.Optional
 import io.project.core.app.toOptional
@@ -159,3 +160,18 @@ fun View.getRelativeY(parentView: View?): Float {
         y + (parent as View).getRelativeY(parentView)
     }
 }
+
+
+data class InitialPadding(val left: Int, val top: Int, val right: Int, val bottom: Int)
+
+fun View.saveInitialPadding() {
+    setTag(R.id.tag_initial_padding, recordInitialPaddingForView())
+}
+
+fun View.restoreInitialPadding(): InitialPadding {
+    return getTag(R.id.tag_initial_padding) as InitialPadding
+}
+
+fun View.recordInitialPaddingForView() = InitialPadding(
+    paddingLeft, paddingTop, paddingRight, paddingBottom
+)
