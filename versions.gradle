@@ -23,7 +23,7 @@ versions.androidx_paging = '2.1.0'
 versions.androidx_exifinterface = '1.0.0'
 
 versions.navigation = '2.1.0-alpha02'
-versions.constraintlayout = '2.0.0-alpha4'
+versions.constraintlayout = '2.0.0-alpha5'
 versions.material = '1.1.0-alpha05'
 
 versions.permissionsdispatcher = '4.3.0'
