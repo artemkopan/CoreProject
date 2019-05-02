@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel : ViewModel(), BaseViewModelDelegate {
 
-    abstract override fun onCleared()
+    override fun onCleared() {
+        super.onCleared()
+    }
 
 }
