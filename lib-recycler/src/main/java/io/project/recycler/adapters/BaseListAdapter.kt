@@ -66,7 +66,7 @@ abstract class BaseListAdapter<T, VH : BaseHolder<T>> : RecyclerView.Adapter<VH>
 
     //endregion
 
-    fun setList(list: List<T>, notifyChanged: Boolean) {
+    open fun setList(list: List<T>, notifyChanged: Boolean) {
         this.list = Collections.unmodifiableList(list)
         if (notifyChanged) notifyDataSetChanged()
     }
