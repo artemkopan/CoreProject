@@ -8,16 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import io.project.core.app.lazyNonSafety
 
-abstract class BaseFragment : Fragment(), BasePresentation, BasePresentationLifecycleOwner {
+abstract class BaseFragment : Fragment(), BasePresentation, PresentationLifecycle {
 
     protected abstract val layoutRes: Int
+    protected abstract val progressBarController: ProgressBarController
 
-    private val basePresentationDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        BasePresentationDelegate(requireContext())
+    private val basePresentationDelegate by lazyNonSafety {
+        BasePresentationDelegate(requireContext(), progressBarController)
     }
 
-    override val lifecycleOwner: LifecycleOwner
+    override val presentationLifecycleOwner: LifecycleOwner
         get() = viewLifecycleOwner
 
     override fun onCreateView(
@@ -46,8 +48,10 @@ abstract class BaseFragment : Fragment(), BasePresentation, BasePresentationLife
 
     override fun hideKeyboard(view: View?) = basePresentationDelegate.hideKeyboard(view)
 
+    override fun showLoading(isLoading: Boolean) = basePresentationDelegate.showLoading(isLoading)
+
     protected fun <T> LiveData<T>.subscribe(consumer: (T) -> Unit) {
-        this.observe(lifecycleOwner, Observer { it?.let(consumer) })
+        this.observe(presentationLifecycleOwner, Observer { it?.let(consumer) })
     }
 
 }

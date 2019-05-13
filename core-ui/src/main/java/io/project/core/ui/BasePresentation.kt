@@ -31,36 +31,53 @@ interface BasePresentation {
 
     fun hideKeyboard(view: View?)
 
+    fun showLoading(isLoading: Boolean)
 
 }
 
-interface BasePresentationLifecycleOwner {
+interface PresentationLifecycle {
 
-    val lifecycleOwner: LifecycleOwner
+    val presentationLifecycleOwner: LifecycleOwner
 
     fun ViewState<*>.observeLoading(accept: Boolean.() -> Unit) {
-        this.observeLoading(lifecycleOwner, accept)
+        this.observeLoading(presentationLifecycleOwner, accept)
     }
 
     fun <T> ViewState<T>.singleData(accept: T.() -> Unit) {
-        this.singleData(lifecycleOwner, accept)
+        this.singleData(presentationLifecycleOwner, accept)
     }
 
     fun <T> ViewState<T>.observeData(accept: T.() -> Unit) {
-        this.observeData(lifecycleOwner, accept)
+        this.observeData(presentationLifecycleOwner, accept)
     }
 
     fun ViewState<*>.singleError(accept: Throwable.() -> Unit) {
-        this.singleError(lifecycleOwner, accept)
+        this.singleError(presentationLifecycleOwner, accept)
     }
 
     fun ViewState<*>.observeError(accept: Throwable.() -> Unit) {
-        this.observeError(lifecycleOwner, accept)
+        this.observeError(presentationLifecycleOwner, accept)
     }
 }
 
+fun <T, P> P.bindViewState(
+    receiver: ViewState<T>,
+    onNext: ((T) -> Unit)? = null,
+    onError: ((Throwable) -> Unit)? = { showError(it) },
+    onLoading: ((Boolean) -> Unit)? = { showLoading(it) },
+    onSuccess: ((T) -> Unit)? = null,
+    onResult: ((T?, Throwable?) -> Unit)? = null
+) where P : BasePresentation, P : PresentationLifecycle {
+    onLoading?.let { receiver.observeLoading { it.invoke(this) } }
+    onError?.let { receiver.singleError { it.invoke(this); onResult?.invoke(null, this) } }
+    onNext?.let { receiver.observeData { it.invoke(this); onResult?.invoke(this, null) } }
+    onSuccess?.let { receiver.singleData { it.invoke(this); onResult?.invoke(this, null) } }
+}
 
-class BasePresentationDelegate(private val context: Context) : BasePresentation {
+class BasePresentationDelegate(
+    private val context: Context,
+    private val progressBarController: ProgressBarController
+) : BasePresentation {
 
     override fun showError(throwable: Throwable?) {
         when (throwable) {
@@ -120,6 +137,10 @@ class BasePresentationDelegate(private val context: Context) : BasePresentation 
         (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).run {
             hideSoftInputFromWindow(view.windowToken, 0)
         }
+    }
+
+    override fun showLoading(isLoading: Boolean) {
+        if (isLoading) progressBarController.show() else progressBarController.hide()
     }
 
     private fun findActivity(): Activity? {

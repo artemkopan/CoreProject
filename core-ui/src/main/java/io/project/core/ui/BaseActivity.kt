@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.android.synthetic.*
 
-abstract class BaseActivity : AppCompatActivity(), BasePresentation, BasePresentationLifecycleOwner, LifecycleOwner {
+abstract class BaseActivity : AppCompatActivity(), BasePresentation, PresentationLifecycle, LifecycleOwner {
+
+    protected abstract val layoutRes: Int
+    protected abstract val progressBarController: ProgressBarController
+    protected abstract fun onCreated(savedInstanceState: Bundle?)
 
     private val basePresentationDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        BasePresentationDelegate(this)
+        BasePresentationDelegate(this, progressBarController)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,11 +29,7 @@ abstract class BaseActivity : AppCompatActivity(), BasePresentation, BasePresent
         super.onDestroy()
     }
 
-    override val lifecycleOwner: LifecycleOwner get() = this
-
-    protected abstract val layoutRes: Int
-
-    protected abstract fun onCreated(savedInstanceState: Bundle?)
+    override val presentationLifecycleOwner: LifecycleOwner get() = this
 
     protected open fun showStatusBarOverlay() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
@@ -54,4 +54,5 @@ abstract class BaseActivity : AppCompatActivity(), BasePresentation, BasePresent
 
     override fun hideKeyboard(view: View?) = basePresentationDelegate.hideKeyboard(view)
 
+    override fun showLoading(isLoading: Boolean) = basePresentationDelegate.showLoading(isLoading)
 }
