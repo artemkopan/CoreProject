@@ -9,7 +9,7 @@ ext.build_versions = build_versions
 
 def versions = [:]
 versions.kotlin_version = '1.3.31'
-versions.kotlin_coroutines = '1.1.1'
+versions.kotlin_coroutines = '1.2.1'
 
 versions.androidx_core = '1.2.0-alpha01'
 versions.androidx_annotations = '1.0.0'
