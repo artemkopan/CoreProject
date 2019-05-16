@@ -77,9 +77,14 @@ fun View.requestApplyInsetsWhenAttached() {
     }
 }
 
-fun TextView.addAfterTextChangedListener(callback: (CharSequence?) -> Unit) {
+fun TextView.addAfterTextChangedListener(skipInitial: Boolean = false, callback: (CharSequence?) -> Unit) {
     addTextChangedListener(object : TextWatcher {
+        private var isFirstInit = true
         override fun afterTextChanged(s: Editable?) {
+            if (isFirstInit && skipInitial) {
+                isFirstInit = false
+                return
+            }
             callback(s)
         }
 
