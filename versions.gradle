@@ -42,7 +42,7 @@ versions.inputmask = '4.0.0'
 //region Debug
 versions.stetho = '1.5.0'
 versions.timber = '4.7.1'
-versions.crashlytics = '2.9.9'
+versions.crashlytics = '2.10.0'
 //endregion
 
 versions.bintrayVersion = "1.0.0"
