@@ -16,4 +16,17 @@ object Delegates {
             }
         }
 
+    inline fun <T> onceRead(initialValue: T): ReadWriteProperty<Any?, T> =
+        object : ReadWriteProperty<Any?, T> {
+            private var value: T = initialValue
+
+
+            override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+                return value.also { this.value = initialValue }
+            }
+
+            override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+                this.value = value
+            }
+        }
 }
