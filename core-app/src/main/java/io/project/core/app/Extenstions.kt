@@ -1,5 +1,6 @@
 package io.project.core.app
 
+import androidx.annotation.FloatRange
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
@@ -34,5 +35,9 @@ fun Float?.orZero() = this ?: 0f
 fun Int?.orZero() = this ?: 0
 
 fun Int.convertColorToHex() = String.format("#%06X", 0xFFFFFF and this)
+
+fun lerp(from: Float, to: Float, @FloatRange(from = 0.0, to = 1.0) fraction: Float): Float {
+    return from + fraction * (to - from)
+}
 
 fun Map<*, *>.log() = this.keys.joinToString { "Key: $it | Data: ${get(it)}" }
