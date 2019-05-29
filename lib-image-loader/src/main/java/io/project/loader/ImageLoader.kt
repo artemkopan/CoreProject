@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -21,7 +20,9 @@ import com.bumptech.glide.request.RequestOptions
 
 const val NO_OVERRIDE = -1
 
+private typealias AndroidDrawable = android.graphics.drawable.Drawable
 
+@SuppressLint("CheckResult")
 fun createRequestOptions(
     @Px width: Int = NO_OVERRIDE,
     @Px height: Int = NO_OVERRIDE,
@@ -36,12 +37,12 @@ fun createRequestOptions(
     val options = RequestOptions()
 
     when (errorDrawable) {
-        is Drawable -> options.error(errorDrawable)
+        is GlideHolder.Drawable -> options.error(errorDrawable.drawable)
         is GlideHolder.Res -> options.error(errorDrawable.res)
     }
 
     when (placeholderDrawable) {
-        is Drawable -> options.placeholder(placeholderDrawable)
+        is GlideHolder.Drawable -> options.placeholder(placeholderDrawable.drawable)
         is GlideHolder.Res -> options.placeholder(placeholderDrawable.res)
     }
 
@@ -97,13 +98,13 @@ fun ImageView.loadImage(
     animate: Boolean = false,
     skipMemoryCache: Boolean = false,
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC,
-    requestListener: RequestListener<Drawable>? = null,
+    requestListener: RequestListener<AndroidDrawable>? = null,
     vararg transformations: Transformation<Bitmap>
 ) {
 
     if (model == null) {
         when (errorDrawable) {
-            is Drawable -> this.setImageDrawable(errorDrawable)
+            is GlideHolder.Drawable -> this.setImageDrawable(errorDrawable.drawable)
             is GlideHolder.Res -> this.setImageResource(errorDrawable.res)
         }
         return
@@ -144,6 +145,7 @@ fun ImageView.loadImage(
 }
 
 
+@SuppressLint("CheckResult")
 fun View.loadBackground(
     model: Any?,
     source: GlideSource = GlideSource.Context(context.applicationContext),
@@ -205,10 +207,7 @@ sealed class GlideSource {
 }
 
 sealed class GlideHolder {
-    class Drawable(val drawable: android.graphics.drawable.Drawable = ColorDrawable(Color.GRAY)) :
-        GlideHolder()
-
+    class Drawable(val drawable: AndroidDrawable = ColorDrawable(Color.GRAY)) : GlideHolder()
     class Res(@DrawableRes val res: Int) : GlideHolder()
-
     object Empty : GlideHolder()
 }
