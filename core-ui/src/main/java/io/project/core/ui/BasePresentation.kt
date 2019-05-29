@@ -65,13 +65,13 @@ fun <T, P> P.bindViewState(
     onNext: ((T) -> Unit)? = null,
     onError: ((Throwable) -> Unit)? = { showError(it) },
     onLoading: ((Boolean) -> Unit)? = { showLoading(it) },
-    onSuccess: ((T) -> Unit)? = null,
+    onSingle: ((T) -> Unit)? = null,
     onResult: ((T?, Throwable?) -> Unit)? = null
 ) where P : BasePresentation, P : PresentationLifecycle {
     onLoading?.let { receiver.observeLoading { it.invoke(this) } }
     onError?.let { receiver.singleError { it.invoke(this); onResult?.invoke(null, this) } }
     onNext?.let { receiver.observeData { it.invoke(this); onResult?.invoke(this, null) } }
-    onSuccess?.let { receiver.singleData { it.invoke(this); onResult?.invoke(this, null) } }
+    onSingle?.let { receiver.singleData { it.invoke(this); onResult?.invoke(this, null) } }
 }
 
 class BasePresentationDelegate(
