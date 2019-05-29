@@ -26,8 +26,8 @@ private typealias AndroidDrawable = android.graphics.drawable.Drawable
 fun createRequestOptions(
     @Px width: Int = NO_OVERRIDE,
     @Px height: Int = NO_OVERRIDE,
-    errorDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_error),
-    placeholderDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_default),
+    errorDrawable: ImageHolder = ImageHolder.Res(R.drawable.ph_error),
+    placeholderDrawable: ImageHolder = ImageHolder.Res(R.drawable.ph_default),
     centerCrop: Boolean = true,
     skipMemoryCache: Boolean = false,
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC,
@@ -37,13 +37,13 @@ fun createRequestOptions(
     val options = RequestOptions()
 
     when (errorDrawable) {
-        is GlideHolder.Drawable -> options.error(errorDrawable.drawable)
-        is GlideHolder.Res -> options.error(errorDrawable.res)
+        is ImageHolder.Drawable -> options.error(errorDrawable.drawable)
+        is ImageHolder.Res -> options.error(errorDrawable.res)
     }
 
     when (placeholderDrawable) {
-        is GlideHolder.Drawable -> options.placeholder(placeholderDrawable.drawable)
-        is GlideHolder.Res -> options.placeholder(placeholderDrawable.res)
+        is ImageHolder.Drawable -> options.placeholder(placeholderDrawable.drawable)
+        is ImageHolder.Res -> options.placeholder(placeholderDrawable.res)
     }
 
     options.fitCenter()
@@ -71,9 +71,9 @@ fun createRequestOptions(
 
 fun ImageView.loadCircle(
     model: Any?,
-    source: GlideSource = GlideSource.Context(context.applicationContext),
-    errorDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_circle_error),
-    placeholderDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_circle_default)
+    source: ImageSource = ImageSource.Context(context.applicationContext),
+    errorDrawable: ImageHolder = ImageHolder.Res(R.drawable.ph_circle_error),
+    placeholderDrawable: ImageHolder = ImageHolder.Res(R.drawable.ph_circle_default)
 ) {
     loadImage(
         model = model,
@@ -87,12 +87,12 @@ fun ImageView.loadCircle(
 
 @SuppressLint("CheckResult")
 fun ImageView.loadImage(
-    source: GlideSource = GlideSource.Context(context.applicationContext),
+    source: ImageSource = ImageSource.Context(context.applicationContext),
     model: Any?,
     @Px width: Int = NO_OVERRIDE,
     @Px height: Int = NO_OVERRIDE,
-    errorDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_error),
-    placeholderDrawable: GlideHolder = GlideHolder.Res(R.drawable.ph_default),
+    errorDrawable: ImageHolder = ImageHolder.Res(R.drawable.ph_error),
+    placeholderDrawable: ImageHolder = ImageHolder.Res(R.drawable.ph_default),
     centerCrop: Boolean = true,
     circleCrop: Boolean = false,
     animate: Boolean = false,
@@ -104,17 +104,17 @@ fun ImageView.loadImage(
 
     if (model == null) {
         when (errorDrawable) {
-            is GlideHolder.Drawable -> this.setImageDrawable(errorDrawable.drawable)
-            is GlideHolder.Res -> this.setImageResource(errorDrawable.res)
+            is ImageHolder.Drawable -> this.setImageDrawable(errorDrawable.drawable)
+            is ImageHolder.Res -> this.setImageResource(errorDrawable.res)
         }
         return
     }
 
     val request = when (source) {
-        is GlideSource.Context -> Glide.with(source.context)
-        is GlideSource.View -> Glide.with(source.view)
-        is GlideSource.Activity -> Glide.with(source.activity)
-        is GlideSource.Fragment -> Glide.with(source.fragment)
+        is ImageSource.Context -> Glide.with(source.context)
+        is ImageSource.View -> Glide.with(source.view)
+        is ImageSource.Activity -> Glide.with(source.activity)
+        is ImageSource.Fragment -> Glide.with(source.fragment)
     }
         .asDrawable()
         .load(model)
@@ -148,9 +148,9 @@ fun ImageView.loadImage(
 @SuppressLint("CheckResult")
 fun View.loadBackground(
     model: Any?,
-    source: GlideSource = GlideSource.Context(context.applicationContext),
-    errorDrawable: GlideHolder = GlideHolder.Empty,
-    placeholderDrawable: GlideHolder = GlideHolder.Empty,
+    source: ImageSource = ImageSource.Context(context.applicationContext),
+    errorDrawable: ImageHolder = ImageHolder.Empty,
+    placeholderDrawable: ImageHolder = ImageHolder.Empty,
     animate: Boolean = true,
     @Px width: Int = NO_OVERRIDE,
     @Px height: Int = NO_OVERRIDE,
@@ -161,10 +161,10 @@ fun View.loadBackground(
 ) {
 
     val request = when (source) {
-        is GlideSource.Context -> Glide.with(source.context)
-        is GlideSource.View -> Glide.with(source.view)
-        is GlideSource.Activity -> Glide.with(source.activity)
-        is GlideSource.Fragment -> Glide.with(source.fragment)
+        is ImageSource.Context -> Glide.with(source.context)
+        is ImageSource.View -> Glide.with(source.view)
+        is ImageSource.Activity -> Glide.with(source.activity)
+        is ImageSource.Fragment -> Glide.with(source.fragment)
     }
         .asDrawable()
         .load(model)
@@ -190,24 +190,24 @@ fun View.loadBackground(
 }
 
 
-fun ImageView.loadClear(source: GlideSource = GlideSource.Context(context.applicationContext)) {
+fun ImageView.loadClear(source: ImageSource = ImageSource.Context(context.applicationContext)) {
     when (source) {
-        is GlideSource.Context -> Glide.with(source.context)
-        is GlideSource.View -> Glide.with(source.view)
-        is GlideSource.Activity -> Glide.with(source.activity)
-        is GlideSource.Fragment -> Glide.with(source.fragment)
+        is ImageSource.Context -> Glide.with(source.context)
+        is ImageSource.View -> Glide.with(source.view)
+        is ImageSource.Activity -> Glide.with(source.activity)
+        is ImageSource.Fragment -> Glide.with(source.fragment)
     }.clear(this)
 }
 
-sealed class GlideSource {
-    class Context(val context: android.content.Context) : GlideSource()
-    class View(val view: android.view.View) : GlideSource()
-    class Activity(val activity: android.app.Activity) : GlideSource()
-    class Fragment(val fragment: androidx.fragment.app.Fragment) : GlideSource()
+sealed class ImageSource {
+    class Context(val context: android.content.Context) : ImageSource()
+    class View(val view: android.view.View) : ImageSource()
+    class Activity(val activity: android.app.Activity) : ImageSource()
+    class Fragment(val fragment: androidx.fragment.app.Fragment) : ImageSource()
 }
 
-sealed class GlideHolder {
-    class Drawable(val drawable: AndroidDrawable = ColorDrawable(Color.GRAY)) : GlideHolder()
-    class Res(@DrawableRes val res: Int) : GlideHolder()
-    object Empty : GlideHolder()
+sealed class ImageHolder {
+    class Drawable(val drawable: AndroidDrawable = ColorDrawable(Color.GRAY)) : ImageHolder()
+    class Res(@DrawableRes val res: Int) : ImageHolder()
+    object Empty : ImageHolder()
 }
