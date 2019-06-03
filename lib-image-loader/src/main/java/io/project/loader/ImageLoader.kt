@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package io.project.loader
 
 import android.annotation.SuppressLint
@@ -17,6 +19,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+
+private typealias AndroidDrawable = android.graphics.drawable.Drawable
 
 const val NO_OVERRIDE = -1
 
