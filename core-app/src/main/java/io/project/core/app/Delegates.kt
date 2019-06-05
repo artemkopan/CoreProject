@@ -16,6 +16,20 @@ object Delegates {
             }
         }
 
+    inline fun <T> singleChange(initialValue: T, crossinline onChange: (newValue: T) -> Unit):
+            ReadWriteProperty<Any?, T> =
+        object : ObservableProperty<T>(initialValue) {
+            @Volatile
+            private var wasChanged = false
+
+            override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) {
+                if (!wasChanged && oldValue != newValue) {
+                    wasChanged = true
+                    onChange(newValue)
+                }
+            }
+        }
+
     inline fun <T> onceRead(initialValue: T): ReadWriteProperty<Any?, T> =
         object : ReadWriteProperty<Any?, T> {
             private var value: T = initialValue
