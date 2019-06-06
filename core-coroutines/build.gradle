@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply from: '../versions.gradle'
+
+
+dependencies {
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.kotlin_coroutines"
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"

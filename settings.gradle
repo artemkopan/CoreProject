@@ -1,4 +1,5 @@
 include ':core-android',
+        ':core-coroutines',
         ':core-ui', ':core-app', ':core-mvvm',
         ':lib-debug',
         ':lib-debug-stetho-noop',
