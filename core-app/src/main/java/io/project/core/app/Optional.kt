@@ -35,6 +35,9 @@ class Optional<T> private constructor(val data: T?) : Serializable {
         return data?.hashCode() ?: 0
     }
 
+    override fun toString(): String {
+        return "Optional [$data]"
+    }
 }
 
 fun <T> T?.toOptional() = Optional.of(this)

@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.project.core.android.lifecycle.LiveEvent
 import io.project.core.android.lifecycle.toSingleEvent
-import io.project.core.app.Logger
 import io.project.core.app.Optional
 import io.project.core.app.toOptional
 import kotlin.LazyThreadSafetyMode.PUBLICATION
@@ -70,12 +69,10 @@ open class ViewStateImpl<T> : ViewState<T> {
     }
 
     override fun setValue(data: T, isImmediately: Boolean) {
-        if (BuildConfig.DEBUG) Logger.d("setValue: $data")
         this.valueLiveData.performLiveData(isImmediately) { data }
     }
 
     override fun setError(throwable: Throwable, isImmediately: Boolean) {
-        if (BuildConfig.DEBUG) Logger.d("setError", throwable)
         errorLiveData.performLiveData(isImmediately) { throwable }
     }
 
