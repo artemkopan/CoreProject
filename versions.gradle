@@ -13,17 +13,17 @@ versions.kotlin_coroutines = '1.2.1'
 
 versions.androidx_core = '1.2.0-alpha01'
 versions.androidx_annotations = '1.0.0'
-versions.androidx_appcompat = '1.1.0-alpha05'
+versions.androidx_appcompat = '1.1.0-beta01'
 versions.androidx_livedata = '2.2.0-alpha01'
 versions.androidx_lifecycle = '2.2.0-alpha01'
 versions.androidx_viewmodel = '2.2.0-alpha01'
-versions.androidx_fragment = '1.0.0'
-versions.androidx_recycler = '1.0.0'
+versions.androidx_fragment = '1.1.0-beta01'
+versions.androidx_recycler = '1.1.0-alpha06'
 versions.androidx_paging = '2.1.0'
 versions.androidx_exifinterface = '1.0.0'
 versions.androidx_room = '2.1.0-beta01'
 
-versions.navigation = '2.1.0-alpha04'
+versions.navigation = '2.1.0-alpha05'
 versions.constraintlayout = '2.0.0-beta1'
 versions.material = '1.1.0-alpha06'
 
@@ -32,7 +32,7 @@ versions.cicerone = '5.0.0'
 
 versions.koin = '2.0.1'
 
-versions.retrofit = '2.5.0'
+versions.retrofit = '2.6.0'
 versions.okhttp = '3.13.1'
 
 versions.glide = '4.9.0'
