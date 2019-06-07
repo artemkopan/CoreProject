@@ -53,7 +53,7 @@ suspend inline fun <T> ReceiveChannel<T>.startWith(item: T, context: CoroutineCo
         }
     }
 
-suspend fun <T> ReceiveChannel<T>.distinctUntilChanged(context: CoroutineContext = Dispatchers.Unconfined): ReceiveChannel<T> =
+suspend inline fun <T> ReceiveChannel<T>.distinctUntilChanged(context: CoroutineContext = Dispatchers.Unconfined): ReceiveChannel<T> =
     GlobalScope.produce(context, onCompletion = consumes()) {
         var prev: T? = null
         for (current in this@distinctUntilChanged) {
@@ -65,20 +65,26 @@ suspend fun <T> ReceiveChannel<T>.distinctUntilChanged(context: CoroutineContext
     }
 
 
-suspend fun <T> ReceiveChannel<T>.distinctUntilChanged(
+suspend inline fun <T> ReceiveChannel<T>.onNext(
     context: CoroutineContext = Dispatchers.Unconfined,
-    comparator: (T, T) -> Boolean
+    crossinline onNext: suspend ReceiveChannel<T>.(T) -> Unit
 ): ReceiveChannel<T> =
-    coroutineScope {
-        produce(context) {
-            var prev: T = receive()
-            send(prev)
+    GlobalScope.produce(context, onCompletion = consumes()) {
+        consumeEach { onNext(it) }
+    }
 
-            consumeEach {
-                if (!comparator(it, prev)) {
-                    send(it)
-                    prev = it
-                }
+
+suspend inline fun <T> ReceiveChannel<T>.distinctUntilChanged(
+    context: CoroutineContext = Dispatchers.Unconfined,
+    crossinline comparator: (T, T) -> Boolean
+): ReceiveChannel<T> =
+    GlobalScope.produce(context, onCompletion = consumes()) {
+        var prev: T = receive()
+        send(prev)
+        consumeEach {
+            if (!comparator(it, prev)) {
+                send(it)
+                prev = it
             }
         }
     }
@@ -89,18 +95,18 @@ suspend fun <T> ReceiveChannel<T>.distinctUntilChanged(
  * @param source2 - second deferred, whose result will be used in zipper
  * @param zipper - function, that will be called with deferred's results
  */
-suspend fun <T1, T2, R> zip(source1: Deferred<T1>, source2: Deferred<T2>, coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, zipper: (T1, T2) -> R): Deferred<R> =
+suspend inline fun <T1, T2, R> zip(source1: Deferred<T1>, source2: Deferred<T2>, coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline zipper: (T1, T2) -> R): Deferred<R> =
     coroutineScope {
         async(start = coroutineStart) {
             zipper(source1.await(), source2.await())
         }
     }
 
-fun <T> ReceiveChannel<T>.debounce(
+inline fun <T> ReceiveChannel<T>.debounce(
     wait: Long = 300,
-    context: CoroutineContext = Dispatchers.Unconfined,
-    scope: CoroutineScope = GlobalScope
-): ReceiveChannel<T> = scope.produce(context) {
+    context: CoroutineContext = Dispatchers.Unconfined
+): ReceiveChannel<T> =
+    GlobalScope.produce(context, onCompletion = consumes()) {
     var nextTime = 0L
     consumeEach {
         val curTime = System.currentTimeMillis()
