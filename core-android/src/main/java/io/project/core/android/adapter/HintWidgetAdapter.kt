@@ -3,16 +3,19 @@ package io.project.core.android.adapter
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.BaseAdapter
 
 
-abstract class HintWidgetAdapter<T>(private val baseAdapter: BaseWidgetAdapter<T>) : BaseAdapter() {
+abstract class HintWidgetAdapter<T>(private val baseAdapter: BaseWidgetAdapter<T>) : BaseWidgetAdapter<T>() {
 
 
     abstract fun getHintView(convertView: View?, parent: ViewGroup): View
     abstract fun getDropDownHintView(convertView: View?, parent: ViewGroup): View
 
-    fun set(items: List<T>, notify: Boolean = true) {
+    fun set(items: List<T>) {
+        set(items, true)
+    }
+
+    override fun set(items: List<T>, notify: Boolean) {
         baseAdapter.set(items, notify)
     }
 
