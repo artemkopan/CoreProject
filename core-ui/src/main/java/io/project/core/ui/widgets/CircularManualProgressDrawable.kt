@@ -128,7 +128,6 @@ class CircularManualProgressDrawable : Drawable() {
                 override fun get(target: CircularManualProgressDrawable?): Float = target?.progressInternal ?: 0f
                 override fun set(target: CircularManualProgressDrawable?, value: Float) {
                     target?.progressInternal = value
-                    Logger.d("update animator $value")
                 }
             }
 
