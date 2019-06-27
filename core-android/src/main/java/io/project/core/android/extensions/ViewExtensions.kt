@@ -93,6 +93,17 @@ fun TextView.addAfterTextChangedListener(skipInitial: Boolean = false, callback:
     })
 }
 
+inline fun TextView.setOnEditorActionEventListener(actionId: Int, crossinline block: () -> Unit) {
+    setOnEditorActionListener { _, _actionId, _ ->
+        return@setOnEditorActionListener if (actionId == _actionId) {
+            block()
+            true
+        } else {
+            false
+        }
+    }
+}
+
 inline fun AutoCompleteTextView.unregisterAdapter() {
     setAdapter(null)
 }
