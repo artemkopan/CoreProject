@@ -75,6 +75,7 @@ fun <T, P> P.bindViewState(
 }
 
 class BasePresentationDelegate(
+    private val target: BasePresentation,
     private val context: Context,
     private val progressBarController: ProgressBarController
 ) : BasePresentation {
@@ -92,11 +93,11 @@ class BasePresentationDelegate(
         } else {
             throwable.message!!
         }
-        showError(message)
+        target.showError(message)
     }
 
     override fun showError(messageRes: Int) {
-        showError(context string messageRes)
+        target.showError(context string messageRes)
     }
 
     override fun showError(message: String) {
@@ -109,7 +110,7 @@ class BasePresentationDelegate(
     }
 
     override fun showMessage(messageRes: Int) {
-        showMessage(context string messageRes)
+        target.showMessage(context string messageRes)
     }
 
     override fun showMessage(message: String) {

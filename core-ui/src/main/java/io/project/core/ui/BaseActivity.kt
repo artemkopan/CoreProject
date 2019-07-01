@@ -13,7 +13,7 @@ abstract class BaseActivity : AppCompatActivity(), BasePresentation, Presentatio
     protected abstract fun onCreated(savedInstanceState: Bundle?)
 
     private val basePresentationDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        BasePresentationDelegate(this, progressBarController)
+        BasePresentationDelegate(this, this, progressBarController)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

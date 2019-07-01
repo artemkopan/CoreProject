@@ -16,7 +16,7 @@ abstract class BaseFragment : Fragment(), BasePresentation, PresentationLifecycl
     protected abstract val progressBarController: ProgressBarController
 
     private val basePresentationDelegate by lazyNonSafety {
-        BasePresentationDelegate(requireContext(), progressBarController)
+        BasePresentationDelegate(this, requireContext(), progressBarController)
     }
 
     override val presentationLifecycleOwner: LifecycleOwner
