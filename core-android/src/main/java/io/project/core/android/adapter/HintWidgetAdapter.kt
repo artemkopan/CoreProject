@@ -44,5 +44,7 @@ abstract class HintWidgetAdapter<T>(private val baseAdapter: BaseWidgetAdapter<T
     fun setSelection(view: AdapterView<*>, position: Int) {
         view.setSelection(position + 1)
     }
+
+    fun getRealPosition(position: Int) = position - 1
 }
 
