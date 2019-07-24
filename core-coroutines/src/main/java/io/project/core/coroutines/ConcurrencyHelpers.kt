@@ -71,6 +71,13 @@ class JobRunner {
             currentJob = block()
         }
     }
+
+    fun cancel() {
+        synchronized(this) {
+            currentJob?.cancel()
+            currentJob = null
+        }
+    }
 }
 
 
