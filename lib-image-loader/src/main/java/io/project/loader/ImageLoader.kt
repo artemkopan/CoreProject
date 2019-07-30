@@ -108,6 +108,7 @@ fun ImageView.loadImage(
         when (errorDrawable) {
             is ImageHolder.Drawable -> this.setImageDrawable(errorDrawable.drawable)
             is ImageHolder.Res -> this.setImageResource(errorDrawable.res)
+            is ImageHolder.Empty -> this.setImageDrawable(null)
         }
         return
     }
