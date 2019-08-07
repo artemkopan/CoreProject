@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver.OnPreDrawListener
 import android.widget.*
 import androidx.annotation.Px
@@ -191,3 +192,11 @@ fun View.restoreInitialPadding(): InitialPadding {
 fun View.recordInitialPaddingForView() = InitialPadding(
     paddingLeft, paddingTop, paddingRight, paddingBottom
 )
+
+
+fun View.animateVisibility(isGone: Boolean): ViewPropertyAnimator {
+    return animate()
+        .alpha(if (isGone) 0f else 1f)
+        .withStartAction { if (!isGone) setGone(false) }
+        .withEndAction { if (isGone) setGone(true) }
+}
