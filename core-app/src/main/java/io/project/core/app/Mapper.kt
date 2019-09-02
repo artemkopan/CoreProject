@@ -3,11 +3,11 @@ package io.project.core.app
 @Suppress("MemberVisibilityCanBePrivate", "unused", "UNUSED_PARAMETER")
 abstract class Mapper<To, From> {
 
-    fun map(from: From): To = map(from, Unit)
+    fun map(from: From): To = map(from, null)
 
     abstract fun map(from: From, params: Any?): To
 
-    fun reverseMap(to: To): From = reverseMap(to, Unit)
+    fun reverseMap(to: To): From = reverseMap(to, null)
 
     open fun reverseMap(to: To, params: Any?): From {
         throw notImplementedException()
@@ -17,34 +17,13 @@ abstract class Mapper<To, From> {
         return NoSuchMethodError("The method is not implemented")
     }
 
-    fun mapList(typeList: List<From>): List<To> = mapList(typeList, Unit)
+    fun mapList(typeList: List<From>): List<To> = mapList(typeList, null)
 
-    open fun mapList(typeList: List<From>, params: Any? = null): List<To> {
+    open fun mapList(typeList: List<From>, params: Any? = null): List<To> = typeList.map { map(it, params) }
 
-        val list = ArrayList<To>()
+    fun reverseMapList(typeList: List<To>): List<From> = reverseMapList(typeList, null)
 
-        for (type in typeList) {
-
-            list.add(map(type, params))
-
-        }
-
-        return list
-    }
-
-    open fun reverseMapList(typeList: List<To>, params: Any?): List<From> {
-
-        val list = ArrayList<From>()
-
-        for (type in typeList) {
-
-            list.add(reverseMap(type, params))
-
-        }
-
-        return list
-
-    }
+    open fun reverseMapList(typeList: List<To>, params: Any?): List<From> = typeList.map { reverseMap(it, params) }
 
 }
 
