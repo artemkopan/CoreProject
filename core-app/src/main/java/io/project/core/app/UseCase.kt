@@ -25,6 +25,10 @@ interface UseCaseAsyncParams<Params, Result> {
     suspend fun execute(params: Params): Result
 }
 
+interface UseCaseAsyncArgParams<Params, Result> {
+    suspend fun execute(vararg params: Params): Result
+}
+
 interface UseCaseAsyncBiParams<Params1, Params2, Result> {
     suspend fun execute(params1: Params1, params2: Params2): Result
 }
