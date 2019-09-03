@@ -20,6 +20,9 @@ infix fun Context.drawable(@DrawableRes drawableRes: Int) = ContextCompat.getDra
 infix fun Resources.dimen(@DimenRes dimenRes: Int) = this.getDimensionPixelSize(dimenRes)
 infix fun Resources.integer(@IntegerRes integerRes: Int) = this.getInteger(integerRes)
 infix fun Resources.string(@StringRes stringRes: Int): String = this.getString(stringRes)
+infix fun Resources.float(@DimenRes dimenRes: Int): Float = TypedValue().apply {
+    getValue(dimenRes, this, true)
+}.float
 
 infix fun Fragment.color(@ColorRes colorRes: Int) = ContextCompat.getColor(this.context!!, colorRes)
 infix fun Fragment.dimen(@DimenRes dimenRes: Int) = resources.getDimensionPixelSize(dimenRes)
