@@ -41,8 +41,11 @@ abstract class HintWidgetAdapter<T>(private val baseAdapter: BaseWidgetAdapter<T
 
     override fun getCount(): Int = baseAdapter.count + 1
 
+    fun getSelectionPos(selection: Int)= selection + 1
+
+    @Deprecated("adapter should not know about view...", ReplaceWith("adapter.getSelectionPos(position)"))
     fun setSelection(view: AdapterView<*>, position: Int) {
-        view.setSelection(position + 1)
+        view.setSelection(getSelectionPos(position))
     }
 
     fun getRealPosition(position: Int) = position - 1
