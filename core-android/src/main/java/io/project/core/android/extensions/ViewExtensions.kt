@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package io.project.core.android.extensions
 
 import android.text.Editable
@@ -9,31 +11,31 @@ import android.view.ViewTreeObserver.OnPreDrawListener
 import android.widget.*
 import androidx.annotation.Px
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import io.project.core.R
 import io.project.core.android.adapter.AdapterViewInteractionListener
 import io.project.core.app.Optional
 import io.project.core.app.toOptional
 
-
-infix fun View.setGone(gone: Boolean) {
+inline infix fun View.setGone(gone: Boolean) {
     this.visibility = if (gone) View.GONE else View.VISIBLE
 }
 
-fun View.isVisible(): Boolean = this.visibility == View.VISIBLE
+inline fun View.isVisible(): Boolean = this.visibility == View.VISIBLE
 
-infix fun View.setInvisible(invisible: Boolean) {
+inline infix fun View.setInvisible(invisible: Boolean) {
     this.visibility = if (invisible) View.INVISIBLE else View.VISIBLE
 }
 
-infix fun View.setWidth(@Px width: Int): Boolean {
+inline infix fun View.setWidth(@Px width: Int): Boolean {
     return setSize(width = width.toOptional())
 }
 
-infix fun View.setHeight(@Px height: Int): Boolean {
+inline infix fun View.setHeight(@Px height: Int): Boolean {
     return setSize(height = height.toOptional())
 }
 
-fun View.setSize(
+inline fun View.setSize(
     width: Optional<Int> = Optional.empty(),
     height: Optional<Int> = Optional.empty()
 ): Boolean {
@@ -45,13 +47,13 @@ fun View.setSize(
     } ?: false
 }
 
-fun View.margin(left: Int, top: Int, right: Int, bottom: Int) {
+inline fun View.margin(left: Int, top: Int, right: Int, bottom: Int) {
     val marginLayoutParams = layoutParams as ViewGroup.MarginLayoutParams
     marginLayoutParams.setMargins(left, top, right, bottom)
     layoutParams = marginLayoutParams
 }
 
-fun View.heightWithMargins(): Int {
+inline fun View.heightWithMargins(): Int {
     return if (layoutParams is ViewGroup.MarginLayoutParams) {
         val marginLayoutParams = layoutParams as ViewGroup.MarginLayoutParams
         height + marginLayoutParams.bottomMargin + marginLayoutParams.topMargin
@@ -60,7 +62,7 @@ fun View.heightWithMargins(): Int {
     }
 }
 
-fun View.requestApplyInsetsWhenAttached() {
+inline fun View.requestApplyInsetsWhenAttached() {
     if (isAttachedToWindow) {
         // We're already attached, just request as normal
         ViewCompat.requestApplyInsets(this)
@@ -78,7 +80,7 @@ fun View.requestApplyInsetsWhenAttached() {
     }
 }
 
-fun TextView.addAfterTextChangedListener(skipInitial: Boolean = false, callback: (CharSequence?) -> Unit) {
+inline fun TextView.addAfterTextChangedListener(skipInitial: Boolean = false, crossinline callback: (CharSequence?) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         private var isFirstInit = true
         override fun afterTextChanged(s: Editable?) {
@@ -113,7 +115,7 @@ inline fun AbsSpinner.unregisterAdapter() {
     adapter = null
 }
 
-fun AdapterView<*>.setItemClickEventListener(onItemClick: (Int) -> Unit) {
+inline fun AdapterView<*>.setItemClickEventListener(noinline onItemClick: (Int) -> Unit) {
     AdapterViewInteractionListener(this).onUserSelectionListener = onItemClick
 }
 
@@ -134,7 +136,7 @@ inline fun View.callOnPreDraw(crossinline callback: (View) -> Boolean) {
 }
 
 
-fun Spinner.setAdapterWithItemClickEvent(adapter: SpinnerAdapter, onItemClick: (Int) -> Unit) {
+inline fun Spinner.setAdapterWithItemClickEvent(adapter: SpinnerAdapter, crossinline onItemClick: (Int) -> Unit) {
     this.adapter = adapter
     this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -181,22 +183,40 @@ fun View.getRelativeY(parentView: View?): Float {
 
 data class InitialPadding(val left: Int, val top: Int, val right: Int, val bottom: Int)
 
-fun View.saveInitialPadding() {
+inline fun View.saveInitialPadding() {
     setTag(R.id.tag_initial_padding, recordInitialPaddingForView())
 }
 
-fun View.restoreInitialPadding(): InitialPadding {
+inline fun View.restoreInitialPadding(): InitialPadding {
     return getTag(R.id.tag_initial_padding) as InitialPadding
 }
 
-fun View.recordInitialPaddingForView() = InitialPadding(
+inline fun View.recordInitialPaddingForView() = InitialPadding(
     paddingLeft, paddingTop, paddingRight, paddingBottom
 )
 
 
-fun View.animateVisibility(isGone: Boolean): ViewPropertyAnimator {
+inline fun View.animateVisibility(isGone: Boolean): ViewPropertyAnimator {
     return animate()
         .alpha(if (isGone) 0f else 1f)
         .withStartAction { if (!isGone) setGone(false) }
         .withEndAction { if (isGone) setGone(true) }
+}
+
+inline fun View.setOnApplyWindowInsetsListener(crossinline listener: (WindowInsetsCompat) -> WindowInsetsCompat) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+        listener(insets)
+    }
+}
+
+inline fun View.onApplyAndReplaceSystemWindowInsets(
+    insets: WindowInsetsCompat,
+    @Px left: Int = insets.systemWindowInsetLeft,
+    @Px top: Int = insets.systemWindowInsetTop,
+    @Px right: Int = insets.systemWindowInsetRight,
+    @Px bottom: Int = insets.systemWindowInsetBottom
+): WindowInsetsCompat {
+    return ViewCompat.onApplyWindowInsets(this, insets.run {
+        replaceSystemWindowInsets(left, top, right, bottom)
+    })
 }

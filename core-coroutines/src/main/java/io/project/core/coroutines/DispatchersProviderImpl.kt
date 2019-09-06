@@ -10,7 +10,7 @@ class DispatchersProviderImpl : DispatchersProvider {
         get() = KDispatchers.IO
 
     override val main: CoroutineDispatcher
-        get() = KDispatchers.Main
+        get() = KDispatchers.Main.immediate
 
     override val unconfined: CoroutineDispatcher
         get() = KDispatchers.Unconfined
