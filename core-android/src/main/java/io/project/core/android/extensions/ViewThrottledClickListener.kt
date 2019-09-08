@@ -6,7 +6,7 @@ import android.view.View
 private var lasClickTimestamp = 0L
 
 /**
- * Default delay 500 ms;
+ * @param delay - by default  500 ms;
  */
 fun View.setThrottledClickListener(delay: Long = 500L, clickListener: (View) -> Unit) {
     setOnClickListener {
