@@ -8,14 +8,13 @@ private var lastClickTimestamp = 0L
 /**
  * @param delay - by default  500 ms;
  */
-fun View.setThrottledClickListener(delay: Long = 500L, clickListener: (View) -> Unit) {
+fun View.setThrottledClickListener(delay: Long = 500L, clickListener: View.OnClickListener) {
     setOnClickListener {
         val currentTimeStamp = System.currentTimeMillis()
         val delta = currentTimeStamp - lastClickTimestamp
-        IntRange
-        if (delta !in 0L..delta) {
+        if (delta !in 0L..delay) {
             lastClickTimestamp = currentTimeStamp
-            clickListener(this)
+            clickListener.onClick(this)
         }
     }
 }
