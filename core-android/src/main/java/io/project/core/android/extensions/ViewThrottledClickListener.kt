@@ -3,7 +3,7 @@ package io.project.core.android.extensions
 import android.view.View
 
 
-private var lasClickTimestamp = 0L
+private var lastClickTimestamp = 0L
 
 /**
  * @param delay - by default  500 ms;
@@ -11,9 +11,10 @@ private var lasClickTimestamp = 0L
 fun View.setThrottledClickListener(delay: Long = 500L, clickListener: (View) -> Unit) {
     setOnClickListener {
         val currentTimeStamp = System.currentTimeMillis()
-        val delta = currentTimeStamp - lasClickTimestamp
+        val delta = currentTimeStamp - lastClickTimestamp
+        IntRange
         if (delta !in 0L..delta) {
-            lasClickTimestamp = currentTimeStamp
+            lastClickTimestamp = currentTimeStamp
             clickListener(this)
         }
     }
