@@ -18,3 +18,7 @@ fun View.setThrottledClickListener(delay: Long = 500L, clickListener: View.OnCli
         }
     }
 }
+
+inline fun View.setThrottledClickListener(delay: Long = 500L, crossinline clickListener: (View) -> Unit) {
+    setThrottledClickListener(delay, View.OnClickListener { clickListener(it) })
+}
