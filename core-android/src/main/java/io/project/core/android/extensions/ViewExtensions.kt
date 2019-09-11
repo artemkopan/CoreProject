@@ -216,7 +216,14 @@ inline fun View.onApplyAndReplaceSystemWindowInsets(
     @Px right: Int = insets.systemWindowInsetRight,
     @Px bottom: Int = insets.systemWindowInsetBottom
 ): WindowInsetsCompat {
-    return ViewCompat.onApplyWindowInsets(this, insets.run {
-        replaceSystemWindowInsets(left, top, right, bottom)
-    })
+    return ViewCompat.onApplyWindowInsets(this, insets.replaceSystemWindowInsets(left, top, right, bottom))
+}
+
+inline fun WindowInsetsCompat.replaceSystemWindowInsets(
+    @Px left: Int = systemWindowInsetLeft,
+    @Px top: Int = systemWindowInsetTop,
+    @Px right: Int = systemWindowInsetRight,
+    @Px bottom: Int = systemWindowInsetBottom
+): WindowInsetsCompat {
+    return replaceSystemWindowInsets(left, top, right, bottom)
 }
