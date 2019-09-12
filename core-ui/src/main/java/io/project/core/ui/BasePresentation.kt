@@ -72,6 +72,12 @@ fun <T, P> P.bindViewState(
     onError?.let { receiver.singleError { it.invoke(this); onResult?.invoke(null, this) } }
     onNext?.let { receiver.observeData { it.invoke(this); onResult?.invoke(this, null) } }
     onSingle?.let { receiver.singleData { it.invoke(this); onResult?.invoke(this, null) } }
+
+    if (onResult != null && (onNext == null || onSingle == null)) {
+        receiver.singleData { onResult(this, null) }
+    } else if (onResult != null && onError == null) {
+        receiver.singleError { onResult(null, this) }
+    }
 }
 
 class BasePresentationDelegate(
