@@ -22,15 +22,20 @@ abstract class BaseFragment : Fragment(), BasePresentation, PresentationLifecycl
     override val presentationLifecycleOwner: LifecycleOwner
         get() = viewLifecycleOwner
 
+    override val instanceLifecycleOwner: LifecycleOwner
+        get() = this
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return if (layoutRes != View.NO_ID) {
+        return (if (layoutRes != View.NO_ID) {
             inflater.inflate(layoutRes, container, false)
         } else {
             super.onCreateView(inflater, container, savedInstanceState)
+        }).also {
+            progressBarController.onViewCreated()
         }
     }
 

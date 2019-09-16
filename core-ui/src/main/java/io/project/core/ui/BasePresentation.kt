@@ -39,6 +39,8 @@ interface PresentationLifecycle {
 
     val presentationLifecycleOwner: LifecycleOwner
 
+    val instanceLifecycleOwner: LifecycleOwner
+
     fun ViewState<*>.observeLoading(accept: Boolean.() -> Unit) {
         this.observeLoading(presentationLifecycleOwner, accept)
     }

@@ -31,6 +31,9 @@ abstract class BaseActivity : AppCompatActivity(), BasePresentation, Presentatio
 
     override val presentationLifecycleOwner: LifecycleOwner get() = this
 
+    override val instanceLifecycleOwner: LifecycleOwner
+        get() = this
+
     protected open fun showStatusBarOverlay() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN

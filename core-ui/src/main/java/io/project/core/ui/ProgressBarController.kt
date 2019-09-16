@@ -1,6 +1,9 @@
 package io.project.core.ui
 
 interface ProgressBarController {
+
+    fun onViewCreated()
+
     fun hide()
     /**
      * Show the progress view after waiting for a minimum delay. If
