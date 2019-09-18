@@ -4,13 +4,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.project.recycler.holders.BaseHolder
-import java.util.*
+import java.util.Collections
 
 @Suppress("unused", "MemberVisibilityCanBePrivate", "LeakingThis", "RedundantOverride")
 abstract class BaseListAdapter<T, VH : BaseHolder<T>> : RecyclerView.Adapter<VH>(), BaseAdapter<T, VH> {
 
+    protected var list: List<T> = emptyList()
     private val helper = BaseAdapterHelper(this)
-    private var list: List<T> = emptyList()
 
     override fun setClickEvent(func: (containerView: View, viewId: Int, pos: Int, item: T?) -> Unit) {
         helper.clickEvent = func
