@@ -10,7 +10,7 @@ class Optional<T> private constructor(val data: T?) : Serializable {
     inline fun get(default: () -> T) = data ?: default()
     inline fun <M> getAndMap(transform: (T) -> M, default: () -> M) = data?.let(transform) ?: default()
 
-    fun getOrThrow(message: () -> String = { "Data is null" }) = data ?: throw NullPointerException(message())
+    inline fun getOrThrow(crossinline message: () -> String = { "Data is null" }) = data ?: throw NullPointerException(message())
 
     companion object {
         private val OPTIONAL_EMPTY = Optional(null)
