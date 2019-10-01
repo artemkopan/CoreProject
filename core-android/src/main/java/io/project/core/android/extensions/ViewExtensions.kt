@@ -2,6 +2,7 @@
 
 package io.project.core.android.extensions
 
+import android.graphics.Rect
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -226,4 +227,13 @@ inline fun WindowInsetsCompat.replaceSystemWindowInsets(
     @Px bottom: Int = systemWindowInsetBottom
 ): WindowInsetsCompat {
     return replaceSystemWindowInsets(left, top, right, bottom)
+}
+
+inline fun View.getLocationBounds(): Rect {
+    val location = IntArray(2)
+    getLocationOnScreen(location)
+    return Rect(
+        location[0], location[1],
+        location[0] + width, location[1] + height
+    )
 }
