@@ -40,7 +40,7 @@ versions.okhttp = '3.13.1'
 versions.glide = '4.9.0'
 versions.libphonenumber = '8.9.8'
 versions.threeten = '1.1.2'
-versions.inputmask = '4.3.0'
+versions.inputmask = '5.0.0'
 
 //region Debug
 versions.stetho = '1.5.0'
